@@ -12,6 +12,8 @@ Class RaceResult: id, finishedPosition, SocredPoints, driverId, RaceId, driverSt
 Class FantasyTeam: id, name, budget, userId, drivers - list, constructorId, points, fantasyLeagueId
 class FantasyLeague: id, name, description, startDate, endDate, fantasyTeams - list, leagueType
 
+
+
 Response:
 FINAL CLEAN VERSION (CORRECTED MODEL)
 Here is your fixed version (simplified and correct for lab):
@@ -111,11 +113,12 @@ class FantasyLeague
     public LeagueType LeagueType { get; set; }
 }
 
-Prompt:
-can you explain the relationship so how to know if it's 1-N and N-N and why does class example Driver need to use userID and user
+
 
 Prompt:
 generate the objects and linq and explain the async and wait 
+
+
 
 Response:
 
@@ -145,3 +148,153 @@ public static async Task GetDataAsync()
     
     Console.WriteLine("Data fetched!");
 }
+
+
+
+Prompt:
+objasni async i await detaljno
+
+
+
+Response:
+Neke operacije traju dulje — čitanje iz baze, API poziv, čitanje filea. Bez asynca, program blokira cijeli thread i ne može raditi ništa drugo dok čeka.
+// SINKRONO - thread je blokiran, ništa se ne izvodi dok čeka
+var timovi = DohvatiIzBaze(); // čeka 2 sekunde, program "zamrznut"
+Console.WriteLine("Ovo čeka 2 sekunde");
+
+// ASINKRONO - thread nije blokiran
+var timovi = await DohvatiIzBazeAsync(); // čeka 2 sekunde, ali thread slobodan
+Console.WriteLine("Ovo se ispiše tek kad gornji završi, ali thread nije blokiran");
+
+Kako se piše
+Tri pravila koja uvijek vrijede:
+1. Metoda koja koristi await mora imati async u potpisu
+2. Povratni tip mora biti Task ili Task<T>
+3. await stavljaš ispred poziva koji traje dulje
+// Bez povratne vrijednosti → Task
+async Task IspisiBrzuPorukunAsync()
+{
+    await Task.Delay(1000);
+    Console.WriteLine("Gotovo!");
+}
+
+// S povratnom vrijednošću → Task<T>
+async Task<string> DohvatiImePobjednikaAsync(int raceId)
+{
+    await Task.Delay(500); // simulacija upita prema bazi
+    return "Leclerc";
+}
+
+// Pozivanje
+await IspisiBrzuPorukunAsync();
+string pobjednik = await DohvatiImePobjednikaAsync(1);
+
+Paralelno vs sekvencijalno
+Ovo je najvažnija razlika za razumjeti:
+// SEKVENCIJALNO - čeka jedan pa drugi, ukupno 3 sekunde
+var a = await PrviFunkcijaAsync();  // čeka 1s
+var b = await DrugaFunkcijaAsync(); // čeka 2s
+// ukupno: 3 sekunde
+
+// PARALELNO - oba kreću istovremeno, ukupno 2 sekunde
+var taskA = PrviFunkcijaAsync();  // samo pokrene, ne čeka
+var taskB = DrugaFunkcijaAsync(); // samo pokrene, ne čeka
+var a = await taskA;              // sad čeka
+var b = await taskB;              // već gotovo ili skoro
+// ukupno: 2 sekunde (koliko traje duži)
+
+
+
+Prompt:
+objasni ovaj linq upit:var raceSummary = allResults
+    .GroupBy(r => r.Race.Name)
+    .Select(g => new
+    {
+        Utrka = g.Key,
+        Pobjednik = g
+            .Where(r => r.DriverStatus == DriverStatus.Finished)
+            .OrderBy(r => r.FinishedPosition)
+            .FirstOrDefault()?.Driver.Surname ?? "N/A",
+        Incidenti = g.Count(r => r.DriverStatus != DriverStatus.Finished)
+    });
+
+Console.WriteLine("\n2. Sažetak utrka:");
+foreach (var r in raceSummary)
+    Console.WriteLine($"   {r.Utrka} -> Pobjednik: {r.Pobjednik} | Incidenti: {r.Incidenti}");
+
+
+
+Response:
+1. GROUPBY (najvažniji dio)
+.GroupBy(r => r.Race.Name)
+
+znači: grupiraj sve rezultate po imenu utrke
+
+što dobiješ?
+Umjesto jedne liste:
+
+Bahrain, Bahrain, Bahrain...
+Monaco, Monaco...
+
+dobiješ:
+Grupa 1 → Bahrain GP
+Grupa 2 → Monaco GP
+Grupa 3 → Italian GP
+
+svaka grupa = jedna utrka ✔
+
+2. SELECT (pretvaranje u novi objekt)
+.Select(g => new
+
+za svaku grupu (g) radiš novi objekt
+
+3. UTRKA
+Utrka = g.Key
+
+g.Key = naziv utrke (jer si po tome grupirao)
+
+4. POBJEDNIK (najzanimljiviji dio)
+g
+    .Where(r => r.DriverStatus == DriverStatus.Finished)
+    .OrderBy(r => r.FinishedPosition)
+    .FirstOrDefault()?.Driver.Surname ?? "N/A"
+korak po korak:
+✔ filtriraš:
+.Where(r => r.DriverStatus == DriverStatus.Finished)
+
+uzimaš samo one koji su završili utrku
+
+sortiraš:
+.OrderBy(r => r.FinishedPosition)
+
+najmanji broj = 1. mjesto
+
+ uzimaš prvog:
+.FirstOrDefault()
+
+ to je pobjednik
+
+uzimaš prezime:
+?.Driver.Surname
+fallback:
+?? "N/A"
+
+ako nema rezultata → "N/A"
+
+5. INCIDENTI
+g.Count(r => r.DriverStatus != DriverStatus.Finished)
+
+broji sve koji:
+
+nisu završili utrku
+(DNF, DSQ, itd.)
+REZULTAT
+
+Dobiješ nešto tipa:
+
+Bahrain GP → Verstappen | 1 incident
+Monaco GP → Leclerc | 1 incident
+ISPIS
+foreach (var r in raceSummary)
+
+prolaziš kroz sve utrke i ispisuješ
