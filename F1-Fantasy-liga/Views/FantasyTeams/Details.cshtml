@@ -1,0 +1,89 @@
+@model F1_Fantasy_liga.Models.FantasyTeam
+
+<h1>@Model.Name</h1>
+
+<div class="info-card" style="margin-bottom: 24px; display: flex; justify-content: space-around; flex-wrap: wrap;">
+    <div style="text-align: center;">
+        <span class="card-info-label">Remaining Budget</span>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--accent-red);">@Model.Budget.ToString("0.0") M</div>
+    </div>
+    <div style="text-align: center;">
+        <span class="card-info-label">Total Points</span>
+        <div style="font-size: 1.5rem; font-weight: 700; color: #fff;">@Model.Points</div>
+    </div>
+</div>
+
+<div class="details-split">
+    <div class="info-card">
+        <h2>Team Info</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>User:</strong> @Model.User?.Name @Model.User?.Surname</p>
+        <p><strong>League:</strong> @Model.FantasyLeague?.Name</p>
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="section-title">Selected Constructor</h2>
+        @if (Model.Constructor != null)
+        {
+            var teamClass = Model.Constructor.Name switch
+            {
+                "Red Bull Racing" => "team-redbull",
+                "Scuderia Ferrari" => "team-ferrari",
+                "Mercedes-AMG Petronas" => "team-mercedes",
+                _ => string.Empty
+            };
+
+            <div class="custom-card @teamClass clickable-card row-link" data-href="@Url.Action("Details", "Constructors", new { id = Model.Constructor.Id })" tabindex="0" role="link" style="margin-bottom: 24px;">
+                <h3 class="card-title">@Model.Constructor.Name</h3>
+                <div class="card-body">
+                    <div class="card-info-row">
+                        <span class="card-info-label">Nationality</span>
+                        <span class="card-info-value">@Model.Constructor.Nationality</span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p>No constructor selected.</p>
+        }
+
+        <h2 class="section-title" style="margin-top: 32px;">Selected Drivers</h2>
+        @if (Model.Drivers.Any())
+        {
+            <div class="card-grid" style="margin-top: 0;">
+                @foreach (var driver in Model.Drivers)
+                {
+                    var driverTeamClass = driver.Constructor?.Name switch
+                    {
+                        "Red Bull Racing" => "team-redbull",
+                        "Scuderia Ferrari" => "team-ferrari",
+                        "Mercedes-AMG Petronas" => "team-mercedes",
+                        _ => string.Empty
+                    };
+
+                    <div class="custom-card clickable-card @driverTeamClass row-link" data-href="@Url.Action("Details", "Drivers", new { id = driver.Id })" tabindex="0" role="link">
+                        <h3 class="card-title">@driver.Name @driver.Surname</h3>
+                        <div class="card-body">
+                            <div class="card-info-row">
+                                <span class="card-info-label">Number</span>
+                                <span class="card-info-value">@driver.Number</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="card-info-label">Price</span>
+                                <span class="card-info-value">@driver.Price.ToString("0.0") M</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No drivers selected.</p>
+        }
+    </div>
+</div>

@@ -2,7 +2,49 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<section class="home-hero">
+    <h1>
+        Welcome to the <span class="home-hero-accent">F1 Fantasy league</span>
+    </h1>
+    <p>Choose a section below to start exploring the app.</p>
+</section>
+
+<section class="card-grid home-nav-grid">
+    <a class="custom-card clickable-card" asp-controller="BuildTeam" asp-action="Index">
+        <h3 class="card-title">Build Team</h3>
+        <p>Create your fantasy line-up under budget limits.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="Drivers" asp-action="Index">
+        <h3 class="card-title">Drivers</h3>
+        <p>Browse current driver stats and team assignments.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="Constructors" asp-action="Index">
+        <h3 class="card-title">Constructors</h3>
+        <p>Review constructor performance and driver lineups.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="Circuits" asp-action="Index">
+        <h3 class="card-title">Circuits</h3>
+        <p>See all race tracks and their details.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="Races" asp-action="Index">
+        <h3 class="card-title">Races</h3>
+        <p>Explore events, dates, and connected results.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="RaceResults" asp-action="Index">
+        <h3 class="card-title">Race Results</h3>
+        <p>Check individual race finishes and points.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="Users" asp-action="Index">
+        <h3 class="card-title">Users</h3>
+        <p>View users and the fantasy teams they manage.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="FantasyLeagues" asp-action="Index">
+        <h3 class="card-title">Fantasy Leagues</h3>
+        <p>Follow league formats, periods, and standings.</p>
+    </a>
+    <a class="custom-card clickable-card" asp-controller="FantasyTeams" asp-action="Index">
+        <h3 class="card-title">Fantasy Teams</h3>
+        <p>Open team rosters, budget usage, and points.</p>
+    </a>
+</section>
 </div>

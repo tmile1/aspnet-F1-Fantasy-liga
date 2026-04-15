@@ -1,0 +1,17 @@
+@model F1_Fantasy_liga.Models.Circuit
+
+<div class="details-centered">
+    <div class="info-card">
+        <h2>Circuit Details</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Country:</strong> @Model.Country</p>
+        <p><strong>City:</strong> @Model.City</p>
+        <p><strong>Length:</strong> @Model.Length km</p>
+        <p><strong>Number of Laps:</strong> @Model.NumberOfLaps</p>
+
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+</div>

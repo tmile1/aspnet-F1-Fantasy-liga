@@ -1,0 +1,45 @@
+@model F1_Fantasy_liga.Models.User
+
+<h1>User Details</h1>
+
+<div class="details-split">
+    <div class="info-card">
+        <h2>Info</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name @Model.Surname</p>
+        <p><strong>Email:</strong> @Model.Email</p>
+        <p><strong>Role:</strong> @Model.Role</p>
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="section-title">Fantasy Teams</h2>
+        @if (Model.FantasyTeams.Any())
+        {
+            <div class="card-grid" style="margin-top: 0;">
+                @foreach (var team in Model.FantasyTeams)
+                {
+                    <div class="custom-card clickable-card row-link" data-href="@Url.Action("Details", "FantasyTeams", new { id = team.Id })" tabindex="0" role="link">
+                        <h3 class="card-title">@team.Name</h3>
+                        <div class="card-body">
+                            <div class="card-info-row">
+                                <span class="card-info-label">Points</span>
+                                <span class="card-info-value">@team.Points</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="card-info-label">League</span>
+                                <span class="card-info-value">@team.FantasyLeague?.Name</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>This user has no fantasy teams.</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,61 @@
+@model F1_Fantasy_liga.Models.BuildFantasyTeamViewModel
+
+@{
+    ViewData["Title"] = "Build your fantasy team";
+}
+
+<section class="build-team-page" data-budget-limit="@Model.BudgetLimit" data-max-drivers="@Model.MaxDrivers">
+    <header class="build-team-header card-shell">
+        <h1>Build your fantasy team</h1>
+        <div class="budget-row">
+            <div class="budget-item">
+                <span class="budget-label">Budget limit</span>
+                <strong id="budgetLimit">@Model.BudgetLimit.ToString("0.0") M</strong>
+            </div>
+            <div class="budget-item">
+                <span class="budget-label">Used budget</span>
+                <strong id="usedBudget">0.0 M</strong>
+            </div>
+            <div class="budget-item">
+                <span class="budget-label">Drivers selected</span>
+                <strong id="driverCount">0 / @Model.MaxDrivers</strong>
+            </div>
+        </div>
+        <div class="budget-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="budgetProgressBar" class="budget-progress-bar"></div>
+        </div>
+    </header>
+
+    <div class="build-team-grid">
+        <section class="drivers-market card-shell">
+            <h2>Available drivers</h2>
+            <div class="driver-list" id="driverMarketList">
+                @foreach (var driver in Model.Drivers)
+                {
+                    <article class="driver-card"
+                             data-driver-id="@driver.Id"
+                             data-driver-name="@driver.Name @driver.Surname"
+                             data-constructor="@driver.Constructor?.Name"
+                             data-price="@driver.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)">
+                        <div class="driver-card-main">
+                            <h3>@driver.Name @driver.Surname</h3>
+                            <p>@driver.Constructor?.Name</p>
+                            <strong>@driver.Price.ToString("0.0") M</strong>
+                        </div>
+                        <button type="button" class="driver-action-btn add-driver-btn">Add</button>
+                    </article>
+                }
+            </div>
+        </section>
+
+        <section class="selected-team card-shell">
+            <h2>Your team</h2>
+            <p class="team-hint" id="emptyTeamHint">No drivers selected yet.</p>
+            <div id="selectedTeamList" class="driver-list selected-list"></div>
+        </section>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/build-team.js" asp-append-version="true"></script>
+}

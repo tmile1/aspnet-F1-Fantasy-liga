@@ -1,0 +1,54 @@
+@model F1_Fantasy_liga.Models.Constructor
+
+<h1>Constructor Details</h1>
+
+<div class="details-split">
+    <div class="info-card">
+        <h2>Info</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Nationality:</strong> @Model.Nationality</p>
+        <p><strong>Founded Date:</strong> @(Model.FoundedDate?.ToString("dd.MM.yyyy") ?? "N/A")</p>
+        <p><strong>Points:</strong> @Model.Points</p>
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+    
+    <div>
+        <h2 class="section-title">Drivers</h2>
+        @if (Model.Drivers.Any())
+        {
+            <div class="card-grid" style="margin-top: 0;">
+                @foreach (var driver in Model.Drivers)
+                {
+                    var teamClass = driver.Constructor?.Name switch
+                    {
+                        "Red Bull Racing" => "team-redbull",
+                        "Scuderia Ferrari" => "team-ferrari",
+                        "Mercedes-AMG Petronas" => "team-mercedes",
+                        _ => string.Empty
+                    };
+
+                    <div class="custom-card clickable-card @teamClass row-link" data-href="@Url.Action("Details", "Drivers", new { id = driver.Id })" tabindex="0" role="link">
+                        <h3 class="card-title">@driver.Name @driver.Surname</h3>
+                        <div class="card-body">
+                            <div class="card-info-row">
+                                <span class="card-info-label">Number</span>
+                                <span class="card-info-value">@driver.Number</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="card-info-label">Points</span>
+                                <span class="card-info-value">@driver.Points</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No drivers found for this constructor.</p>
+        }
+    </div>
+</div>

@@ -1,0 +1,52 @@
+@model F1_Fantasy_liga.Models.FantasyLeague
+
+<h1>Fantasy League Details</h1>
+
+<div class="details-split">
+    <div class="info-card">
+        <h2>Info</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Description:</strong> @Model.Description</p>
+        <p><strong>Type:</strong> @Model.LeagueType</p>
+        <p><strong>Start Date:</strong> @Model.StartDate.ToString("dd.MM.yyyy")</p>
+        <p><strong>End Date:</strong> @Model.EndDate.ToString("dd.MM.yyyy")</p>
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="section-title">Leaderboard</h2>
+        @if (Model.FantasyTeams.Any())
+        {
+            var orderedTeams = Model.FantasyTeams.OrderByDescending(t => t.Points).ToList();
+            <table border="1" cellpadding="6" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team Name</th>
+                        <th>User</th>
+                        <th>Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < orderedTeams.Count; i++)
+                    {
+                        var team = orderedTeams[i];
+                        <tr class="row-link" data-href="@Url.Action("Details", "FantasyTeams", new { id = team.Id })" tabindex="0" role="link">
+                            <td>@(i + 1)</td>
+                            <td>@team.Name</td>
+                            <td>@team.User?.Name @team.User?.Surname</td>
+                            <td>@team.Points</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No teams in this league yet.</p>
+        }
+    </div>
+</div>

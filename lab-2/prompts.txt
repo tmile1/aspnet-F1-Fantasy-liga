@@ -1,0 +1,45 @@
+1.from the given file "lab 2 - HTML Binding,md" i need to do the task and you will do the task step by step. So firstly make the mock repository for all entities that are in the model folder but don't make the mock for the enums folder that is in it. Every mock repository should have getAll and getById methods. Make folder Repositories and put all mock repositories there. This is because we will need the mock for the next step that would be to make the pages for the entities. 
+2.now create a simple pages for every entity to display data (Index/list) and then it should have details button to show details for that entity.Follow ASP.NET MVC structure:Controllers in /Controllers and Views in /Views/{Entity}/
+Do not implement Create/Edit/Delete. Keep UI simple (basic HTML).
+3.i don't like it that the navigation to the pages are not integrated in the navbar and add some css that makes it look a litle bit better then just plain html.
+Move all navigation links (Drivers, Constructors, Circuits, etc.) from Home/Index page into the main layout navbar
+The navbar should be visible on all pages
+Remove the navigation list from Home/Index page
+Add basic CSS styling (no frameworks like Bootstrap). Create or update site.css. This is the styling i want:Color scheme:
+- Navbar background: #15151e
+- Navbar links: rgba(255,255,255,0.65), hover color: #ffffff, active border-bottom: 2px solid #E10600
+- Page background: #f5f5f5
+- Table header background: #15151e, text: #c0c0c0, font-size: 11px, letter-spacing: 1.5px, text-transform: uppercase
+- Table row hover: rgba(225,6,0,0.08)
+- Details button: background #E10600, color white, border-radius: 4px, no border
+- Details button hover: background #c00400
+- Cards/table background: #ffffff
+- Body font: Titillium Web from Google Fonts (add to _Layout.cshtml head)
+
+Team accent colors (use as border-top: 3px solid on driver cards/rows):
+- Red Bull: #FF8000
+- Ferrari: #E8002D  
+- Mercedes: #00D2BE
+4.make the ui/ux style to use the colors from the picture
+5.fix so that footer is lower because it looks like on the main page wrong to footer be that high and other pages also have that problem. 
+6.I want you to create instructions for F1 UX expert costum agent. Which should know how to handle the UI and the UX. First of all I want to use vanilla CSS. I don't want to use any libraries, so it should know where to how to organize the CSS files efficiently. I want to use just JavaScript, vanilla JavaScript and I want to have this agent know my typical color scheme and all that.
+7.It is time for the costum page and i decided to make a page for build your f1 team. 
+TASK: create a custom page called "Build your fantasy team". This page should be a special interactive page not jist displaying data
+GOAL: allow user to build a fantasy team by selecting drivers within a budget. Make controller and view for it.
+LAYOUT: at the top as every page it needs navigation then for main body. Top section it shows what budget it is and show current used budget also add a progress bar that visually shows used budget.
+Main section is split like in 2 colums. On the left side we have list of all drivers like cards that shows name, constructor, price and button with text "Add".
+Right side has your team secction that is initially empty and when user clicks "Add" that drivers appers here on right side. Also on this side driver should have "Remove" button that removes the driver from team.
+User can only add 4 drivers that add up to 100 but it can't exceed the 100 and if limit reached it should not let add the driver which would exceed the limit.
+When "Add" is clicked driver is moved to "Your team", increases used budget, update progress bar and disable adding the same driver again. Delegate the styling and javascript to the F1UXExpert agent.
+8.Prompt for F1UXExpert directly:I would like you to change the details page for every entity: Driver, Constructor, Circuit, Race, Race Result, User, Fantasy League and Fantasy Team because when press details for example in the image Driver there is Back to list marked in red box in image but is link and it is not styled i would like it to be a button
+9.Prompt for F1UXExpert directly:This is good but add the same button color on the page where you press details to the back button in details in the details page for every entity and change the color for the red bull team accent to #1E41FF and add the accent color to the constructors page like it is on the drivers page 
+10.there are some problems with page for building team. When on the page the drivers price is colored blue and it is also blue when added to the team i want it white or the text main color in the site.css. The problem is shown in picture in red box.
+11.Now i want to make that user does not need to press exactly details button to see the details but he can click where ever he wants for example in the drivers page user could click on the driver id, name, number, points, constructor or the details button and the details page would open. Do it for all entities pages: drivers, constructors, circuits, races, race results, users, fantasy leagues, fantasy teams.
+12.i don't like the red box that appers when pressed to indicate what have been pressed. Remove it so there is no more that box indicataor
+13.In the constructors details page change the format for the date so it shows day.month.year and also on that constructors details page change so that it shows the drivers name not the number of how many drivers they have. In the races details page also change the date format. On the users details page change so that it shows the names of teams that user have not how many teams they have. For fantasy leagues details page change the format of the dates and show the teams names not how many teams they have. On the fantasy teams details page change the drivers to show the names not the number of drivers.
+14.in the navbar make the "F1 fantasy liga" text to be colored red while others are still white. The red is the accent-red color in the site.css
+15.make the drivers page, constructors page, circuits page, races page, fantasy leagues page and fantasy teams page so that is cards not the table and when card is pressed it opens details page. Make the drivers detail page center and add like border to it so it is like a card also make that for circuits. For the Constructor details make it so that on left side it has information about constructor and on the right side are cards of drivers they have. Race details on the left are infromation about race and on the right are cards for the results so when user presses one of results it opens the race results details. Race results details page make it center and make the info into cards so on left is driver and on the right are infromation. User details make left information and right are cards for the teams they have and when press it opens that teams details page. Fantasy league detail page on left are information and on the right is leaderborads table. Fantasy team details on the top is budget, on left is user and what league that team is in and on the right is cards for the drivers and the constructor. Delegate to sub agent if needed
+16.On the drivers page remove the Details button in the cards it is no longer needed because you can just press on the card for details also remove the details button for the constructors page, circuits page, races page, fantasy leagues page and fantasy teams page same thing. In the user details page remove the details button on the cards of the fantasy teams that user have. On the main page add the cards to navigate to the pages and have the title welcome to the F1 Fantasy leauge where the "F1 Fantasy league" text is bold and it is red color. On the drivers page and on the constructors page add on the cards accent color.
+17.On the drivers page and constructors page there is no accent color that is defined in the site.css. In the constructors details page remove the details button on the drivers cards. On the race details page remove the details button on the cards of race results. Delagete to sub agent if needed
+18.in the races details page the driver cards should also have the accent color and in the fantsay teams details page i see you added accent color for the constructor but now also added the acent color on the cards of the drivers 
+19.in the constructors details page add the acent color on the driver cards

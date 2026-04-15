@@ -1,0 +1,53 @@
+@model F1_Fantasy_liga.Models.Race
+
+<h1>Race Details</h1>
+
+<div class="details-split">
+    <div class="info-card">
+        <h2>Info</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Date:</strong> @Model.RaceDate.ToString("dd.MM.yyyy")</p>
+        <p><strong>Circuit:</strong> @Model.Circuit?.Name</p>
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+
+    <div>
+        <h2 class="section-title">Race Results</h2>
+        @if (Model.RaceResults.Any())
+        {
+            <div class="card-grid" style="margin-top: 0;">
+                @foreach (var result in Model.RaceResults)
+                {
+                    var teamClass = result.Driver?.Constructor?.Name switch
+                    {
+                        "Red Bull Racing" => "team-redbull",
+                        "Scuderia Ferrari" => "team-ferrari",
+                        "Mercedes-AMG Petronas" => "team-mercedes",
+                        _ => string.Empty
+                    };
+
+                    <div class="custom-card clickable-card @teamClass row-link" data-href="@Url.Action("Details", "RaceResults", new { id = result.Id })" tabindex="0" role="link">
+                        <h3 class="card-title">P@(result.FinishedPosition): @result.Driver?.Name @result.Driver?.Surname</h3>
+                        <div class="card-body">
+                            <div class="card-info-row">
+                                <span class="card-info-label">Points</span>
+                                <span class="card-info-value">@result.ScoredPoints</span>
+                            </div>
+                            <div class="card-info-row">
+                                <span class="card-info-label">Status</span>
+                                <span class="card-info-value">@result.DriverStatus</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p>No results yet.</p>
+        }
+    </div>
+</div>

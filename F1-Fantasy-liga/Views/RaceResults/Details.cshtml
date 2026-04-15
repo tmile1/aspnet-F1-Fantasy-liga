@@ -1,0 +1,23 @@
+@model F1_Fantasy_liga.Models.RaceResult
+
+<div class="details-centered">
+    <h1 style="text-align: center;">Race Result Details</h1>
+    <div class="details-split-even">
+        <div class="info-card">
+            <h2>Driver Info</h2>
+            <p><strong>Driver:</strong> @Model.Driver?.Name @Model.Driver?.Surname</p>
+            <p><strong>Team:</strong> @Model.Driver?.Constructor?.Name</p>
+        </div>
+        <div class="info-card">
+            <h2>Result Info</h2>
+            <p><strong>Id:</strong> @Model.Id</p>
+            <p><strong>Race:</strong> @Model.Race?.Name</p>
+            <p><strong>Finished Position:</strong> P@(Model.FinishedPosition)</p>
+            <p><strong>Scored Points:</strong> @Model.ScoredPoints</p>
+            <p><strong>Status:</strong> @Model.DriverStatus</p>
+        </div>
+    </div>
+    <div style="margin-top: 24px; text-align: center;">
+        <a class="back-btn" asp-action="Index">Back to list</a>
+    </div>
+</div>

@@ -20,6 +20,50 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/BuildTeam/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVpbGRUZWFtXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Circuits/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lyY3VpdHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Circuits/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2lyY3VpdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Constructors/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uc3RydWN0b3JzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Constructors/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29uc3RydWN0b3JzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Drivers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHJpdmVyc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Drivers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRHJpdmVyc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/FantasyLeagues/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFudGFzeUxlYWd1ZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/FantasyLeagues/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFudGFzeUxlYWd1ZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/FantasyTeams/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFudGFzeVRlYW1zXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/FantasyTeams/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmFudGFzeVRlYW1zXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -28,12 +72,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/RaceResults/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZVJlc3VsdHNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/RaceResults/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZVJlc3VsdHNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Races/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Races/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFjZXNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Users/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Hp/Desktop/F1-Fantasy-liga/F1-Fantasy-liga/Views/_ViewImports.cshtml]

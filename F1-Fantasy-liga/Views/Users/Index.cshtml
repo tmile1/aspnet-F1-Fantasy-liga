@@ -1,0 +1,27 @@
+@model IEnumerable<F1_Fantasy_liga.Models.User>
+
+<h1>Users</h1>
+
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Details</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr class="row-link" data-href="@Url.Action("Details", new { id = item.Id })" tabindex="0" role="link">
+            <td>@item.Id</td>
+            <td>@item.Name @item.Surname</td>
+            <td>@item.Email</td>
+            <td>@item.Role</td>
+            <td><a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

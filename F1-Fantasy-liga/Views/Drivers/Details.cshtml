@@ -1,0 +1,18 @@
+@model F1_Fantasy_liga.Models.Driver
+
+<div class="details-centered">
+    <div class="info-card">
+        <h2>Driver Details</h2>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Name:</strong> @Model.Name @Model.Surname</p>
+        <p><strong>Number:</strong> @Model.Number</p>
+        <p><strong>Price:</strong> @Model.Price</p>
+        <p><strong>Points:</strong> @Model.Points</p>
+        <p><strong>Constructor:</strong> @Model.Constructor?.Name</p>
+        <p><strong>Race Results:</strong> @Model.RaceResults.Count</p>
+
+        <div style="margin-top: 24px;">
+            <a class="back-btn" asp-action="Index">Back to list</a>
+        </div>
+    </div>
+</div>
