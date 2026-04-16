@@ -2,6 +2,16 @@
 
 <h1>Race Results</h1>
 
+<form method="get" asp-action="Index" class="search-row">
+    <input type="text"
+           name="raceSearch"
+           value="@ViewData["RaceSearch"]"
+           class="search-input"
+           placeholder="Search by race name..." />
+    <button type="submit" class="details-btn">Search</button>
+    <a asp-action="Index" class="back-btn">Clear</a>
+</form>
+
 <table border="1" cellpadding="6" cellspacing="0">
     <thead>
         <tr>

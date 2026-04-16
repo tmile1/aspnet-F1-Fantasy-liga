@@ -12,9 +12,18 @@ namespace F1_Fantasy_liga.Controllers
             _raceResultRepository = raceResultRepository;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? raceSearch)
         {
             var raceResults = _raceResultRepository.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(raceSearch))
+            {
+                raceResults = raceResults
+                    .Where(r => (r.Race?.Name ?? string.Empty).Contains(raceSearch, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
+            ViewData["RaceSearch"] = raceSearch;
             return View(raceResults);
         }
 

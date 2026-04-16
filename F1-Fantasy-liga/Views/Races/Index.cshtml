@@ -21,6 +21,9 @@
                     <span class="card-info-value">@item.Circuit?.Name</span>
                 </div>
             </div>
+            <div class="card-actions">
+                <a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </div>
         </div>
     }
 </div>

@@ -6,20 +6,31 @@
   const budgetLimit =
     parseFloat(pageEl.getAttribute("data-budget-limit")) || 100.0;
   const maxDrivers = parseInt(pageEl.getAttribute("data-max-drivers")) || 4;
+  const maxConstructors =
+    parseInt(pageEl.getAttribute("data-max-constructors")) || 1;
 
   let state = {
     selectedDrivers: [],
+    selectedConstructor: null,
     usedBudget: 0.0,
   };
 
   // DOM Elements
   const usedBudgetEl = document.getElementById("usedBudget");
   const driverCountEl = document.getElementById("driverCount");
+  const constructorCountEl = document.getElementById("constructorCount");
   const budgetProgressBarEl = document.getElementById("budgetProgressBar");
   const budgetProgressContainer = document.querySelector(".budget-progress");
   const driverMarketList = document.getElementById("driverMarketList");
+  const constructorMarketList = document.getElementById(
+    "constructorMarketList",
+  );
   const selectedTeamList = document.getElementById("selectedTeamList");
+  const selectedConstructorList = document.getElementById(
+    "selectedConstructorList",
+  );
   const emptyTeamHint = document.getElementById("emptyTeamHint");
+  const emptyConstructorHint = document.getElementById("emptyConstructorHint");
 
   // Create a status message element
   const statusMsgContainer = document.createElement("div");
@@ -39,6 +50,20 @@
     if (e.target.classList.contains("remove-driver-btn")) {
       const card = e.target.closest(".driver-card");
       handleRemoveDriver(card);
+    }
+  });
+
+  constructorMarketList.addEventListener("click", function (e) {
+    if (e.target.classList.contains("add-constructor-btn")) {
+      const card = e.target.closest(".driver-card");
+      handleAddConstructor(card, e.target);
+    }
+  });
+
+  selectedConstructorList.addEventListener("click", function (e) {
+    if (e.target.classList.contains("remove-constructor-btn")) {
+      const card = e.target.closest(".driver-card");
+      handleRemoveConstructor(card);
     }
   });
 
@@ -82,6 +107,54 @@
     showStatus(""); // clear status
   }
 
+  function handleAddConstructor(card, btn) {
+    const constructorId = card.getAttribute("data-constructor-id");
+
+    if (state.selectedConstructor) {
+      showStatus("You can select only one constructor.");
+      return;
+    }
+
+    state.selectedConstructor = { id: constructorId };
+
+    const clonedCard = card.cloneNode(true);
+    const actionBtn = clonedCard.querySelector("button");
+    actionBtn.className = "driver-action-btn remove-constructor-btn";
+    actionBtn.textContent = "Remove";
+    actionBtn.disabled = false;
+
+    selectedConstructorList.appendChild(clonedCard);
+
+    const allConstructorButtons = constructorMarketList.querySelectorAll(
+      ".add-constructor-btn",
+    );
+    allConstructorButtons.forEach((marketBtn) => {
+      marketBtn.disabled = true;
+      marketBtn.textContent = "Unavailable";
+    });
+
+    btn.textContent = "Added";
+
+    updateUI();
+    showStatus("");
+  }
+
+  function handleRemoveConstructor(card) {
+    state.selectedConstructor = null;
+    card.remove();
+
+    const allConstructorButtons = constructorMarketList.querySelectorAll(
+      ".add-constructor-btn",
+    );
+    allConstructorButtons.forEach((marketBtn) => {
+      marketBtn.disabled = false;
+      marketBtn.textContent = "Add";
+    });
+
+    updateUI();
+    showStatus("");
+  }
+
   function handleRemoveDriver(card) {
     const driverId = card.getAttribute("data-driver-id");
     const price = parseFloat(card.getAttribute("data-price")) || 0;
@@ -119,6 +192,9 @@
     usedBudgetEl.textContent = state.usedBudget.toFixed(1) + " M";
     driverCountEl.textContent =
       state.selectedDrivers.length + " / " + maxDrivers;
+    const selectedConstructorCount = state.selectedConstructor ? 1 : 0;
+    constructorCountEl.textContent =
+      selectedConstructorCount + " / " + maxConstructors;
 
     // Update Progress Bar
     const percentage = Math.min((state.usedBudget / budgetLimit) * 100, 100);
@@ -140,6 +216,12 @@
       emptyTeamHint.style.display = "block";
     } else {
       emptyTeamHint.style.display = "none";
+    }
+
+    if (selectedConstructorCount === 0) {
+      emptyConstructorHint.style.display = "block";
+    } else {
+      emptyConstructorHint.style.display = "none";
     }
   }
 

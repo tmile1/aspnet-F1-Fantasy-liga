@@ -43,3 +43,6 @@ When "Add" is clicked driver is moved to "Your team", increases used budget, upd
 17.On the drivers page and constructors page there is no accent color that is defined in the site.css. In the constructors details page remove the details button on the drivers cards. On the race details page remove the details button on the cards of race results. Delagete to sub agent if needed
 18.in the races details page the driver cards should also have the accent color and in the fantsay teams details page i see you added accent color for the constructor but now also added the acent color on the cards of the drivers 
 19.in the constructors details page add the acent color on the driver cards
+20.on the build your fantasy team page can you add the constructors but user can only add one constructor. Add back the details button on the cards of the drivers page, constructors page, circuits page, races page, fantasy leagues page and fantasy teams page.
+21. on home page make the title text in the center, could you add some icons on the cards on home page like for race card flag icon
+22.on home page on card of circuit change icon to be a map. On the race results page add a search bar that you can search for race

@@ -507,6 +507,7 @@ tbody tr:hover {
 
 .home-hero {
   margin-bottom: 20px;
+  text-align: center;
 }
 
 .home-hero h1 {
@@ -530,4 +531,36 @@ tbody tr:hover {
 .home-nav-grid .custom-card p {
   color: var(--nav-link);
   margin: 0;
+}
+
+.home-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-icon {
+  color: var(--accent-red);
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.search-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  min-width: 260px;
+  padding: 8px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-main);
+}
+
+.search-input:focus {
+  outline: 1px solid var(--accent-red);
 }

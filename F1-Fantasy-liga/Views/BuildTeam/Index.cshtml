@@ -4,7 +4,7 @@
     ViewData["Title"] = "Build your fantasy team";
 }
 
-<section class="build-team-page" data-budget-limit="@Model.BudgetLimit" data-max-drivers="@Model.MaxDrivers">
+<section class="build-team-page" data-budget-limit="@Model.BudgetLimit" data-max-drivers="@Model.MaxDrivers" data-max-constructors="@Model.MaxConstructors">
     <header class="build-team-header card-shell">
         <h1>Build your fantasy team</h1>
         <div class="budget-row">
@@ -19,6 +19,10 @@
             <div class="budget-item">
                 <span class="budget-label">Drivers selected</span>
                 <strong id="driverCount">0 / @Model.MaxDrivers</strong>
+            </div>
+            <div class="budget-item">
+                <span class="budget-label">Constructor selected</span>
+                <strong id="constructorCount">0 / @Model.MaxConstructors</strong>
             </div>
         </div>
         <div class="budget-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -46,12 +50,34 @@
                     </article>
                 }
             </div>
+
+            <h2 style="margin-top: 24px;">Available constructors</h2>
+            <div class="driver-list" id="constructorMarketList">
+                @foreach (var constructor in Model.Constructors)
+                {
+                    <article class="driver-card"
+                             data-constructor-id="@constructor.Id"
+                             data-constructor-name="@constructor.Name"
+                             data-constructor-nationality="@constructor.Nationality">
+                        <div class="driver-card-main">
+                            <h3>@constructor.Name</h3>
+                            <p>@constructor.Nationality</p>
+                            <strong>@constructor.Points pts</strong>
+                        </div>
+                        <button type="button" class="driver-action-btn add-constructor-btn">Add</button>
+                    </article>
+                }
+            </div>
         </section>
 
         <section class="selected-team card-shell">
             <h2>Your team</h2>
             <p class="team-hint" id="emptyTeamHint">No drivers selected yet.</p>
             <div id="selectedTeamList" class="driver-list selected-list"></div>
+
+            <h2 style="margin-top: 24px;">Your constructor</h2>
+            <p class="team-hint" id="emptyConstructorHint">No constructor selected yet.</p>
+            <div id="selectedConstructorList" class="driver-list selected-list"></div>
         </section>
     </div>
 </section>
