@@ -1,26 +1,38 @@
-using F1_Fantasy_liga.Repositories;
+using F1_Fantasy_liga.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1_Fantasy_liga.Controllers
 {
+    [Route("constructors")]
     public class ConstructorsController : Controller
     {
-        private readonly ConstructorMockRepository _constructorRepository;
+        private readonly F1DbContext _db;
 
-        public ConstructorsController(ConstructorMockRepository constructorRepository)
+        public ConstructorsController(F1DbContext db)
         {
-            _constructorRepository = constructorRepository;
+            _db = db;
         }
 
+        [HttpGet("")]
         public IActionResult Index()
         {
-            var constructors = _constructorRepository.GetAll();
+            var constructors = _db.Constructors
+                .Include(c => c.Drivers)
+                .ThenInclude(d => d.RaceResults)
+                .ToList();
             return View(constructors);
         }
 
+        [HttpGet("{id:int}")]
         public IActionResult Details(int id)
         {
-            var constructor = _constructorRepository.GetById(id);
+            var constructor = _db.Constructors
+                .Include(c => c.Drivers)
+                .ThenInclude(d => d.RaceResults)
+                .Include(c => c.Drivers)
+                .ThenInclude(d => d.Constructor)
+                .FirstOrDefault(c => c.Id == id);
             if (constructor is null)
             {
                 return NotFound();

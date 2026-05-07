@@ -1,27 +1,15 @@
-using F1_Fantasy_liga.Models;
-using F1_Fantasy_liga.Models.Enums;
-using F1_Fantasy_liga.Repositories;
+
+using F1_Fantasy_liga.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<MockDataStore>();
-builder.Services.AddSingleton<CircuitMockRepository>();
-builder.Services.AddSingleton<ConstructorMockRepository>();
-builder.Services.AddSingleton<DriverMockRepository>();
-builder.Services.AddSingleton<RaceMockRepository>();
-builder.Services.AddSingleton<RaceResultMockRepository>();
-builder.Services.AddSingleton<UserMockRepository>();
-builder.Services.AddSingleton<FantasyLeagueMockRepository>();
-builder.Services.AddSingleton<FantasyTeamMockRepository>();
+builder.Services.AddDbContext<F1DbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("F1FantasyDb")));
 
 var app = builder.Build();
-
-
-
-
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -37,6 +25,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "default",

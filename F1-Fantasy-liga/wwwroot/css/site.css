@@ -11,6 +11,13 @@
   --team-redbull: #1e41ff;
   --team-ferrari: #e8002d;
   --team-mercedes: #00d2be;
+  --team-mclaren: #ff8000;
+  --team-astonmartin: #006f62;
+  --team-alpine: #0090ff;
+  --team-williams: #005aff;
+  --team-visarb: #6692ff;
+  --team-sauber: #00e701;
+  --team-haas: #ffffff;
   --border-color: rgba(255, 255, 255, 0.08);
   --text-main: #f0f0f0;
 }
@@ -164,6 +171,34 @@ tbody tr:hover {
 
 .team-mercedes {
   border-top: 3px solid var(--team-mercedes);
+}
+
+.team-mclaren {
+  border-top: 3px solid var(--team-mclaren);
+}
+
+.team-astonmartin {
+  border-top: 3px solid var(--team-astonmartin);
+}
+
+.team-alpine {
+  border-top: 3px solid var(--team-alpine);
+}
+
+.team-williams {
+  border-top: 3px solid var(--team-williams);
+}
+
+.team-visarb {
+  border-top: 3px solid var(--team-visarb);
+}
+
+.team-sauber {
+  border-top: 3px solid var(--team-sauber);
+}
+
+.team-haas {
+  border-top: 3px solid var(--team-haas);
 }
 
 .site-footer {
@@ -386,6 +421,34 @@ tbody tr:hover {
 
 .custom-card.team-mercedes {
   border-top: 4px solid var(--team-mercedes);
+}
+
+.custom-card.team-mclaren {
+  border-top: 4px solid var(--team-mclaren);
+}
+
+.custom-card.team-astonmartin {
+  border-top: 4px solid var(--team-astonmartin);
+}
+
+.custom-card.team-alpine {
+  border-top: 4px solid var(--team-alpine);
+}
+
+.custom-card.team-williams {
+  border-top: 4px solid var(--team-williams);
+}
+
+.custom-card.team-visarb {
+  border-top: 4px solid var(--team-visarb);
+}
+
+.custom-card.team-sauber {
+  border-top: 4px solid var(--team-sauber);
+}
+
+.custom-card.team-haas {
+  border-top: 4px solid var(--team-haas);
 }
 
 .clickable-card * {

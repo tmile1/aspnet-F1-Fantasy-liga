@@ -1,0 +1,14 @@
+1.So this is what i need to do for laboratory. I made the ef anotations also i added virtual and icollection. I am using ms sqlexpress and made the F1DbContext and added connection string for database. Also i installed microsoft.entityframeworkcore.sqlserver and .tools.
+You need to:
+1.Configure Dependency Injection in Program.cs
+2.Refactor controllers so they use F1DbContext directly so that the mockdata and mock repositories are not used also use F1_Fantasy_liga.data and using Microsoft.EntityFrameworkCore
+3.Replace mock data access with EF Core queires using _db and use Include() and ThenInclude() whre needed for navigation properties
+4.Keep existing functionality for index and details page
+
+2.ok now i made the migration and and updated database now make costum routing for the controllers. Use attribute routing directly on the controllers.
+3.In folder lab3 make semantic-model.md file with semantic DB model. Use markdown tables. Content: a concise list of models/classes/tables, a list of main properties for each, and relationships between tables/classes including relationship type (1-N, M-N).
+4.
+In folder Lab3 make sitemap.md file with semantic routing model. For every available URL in the application write which controller handles it, which action method is called, and which view is used. Include both the custom attribute routes and the default routes. Use markdown tables.
+5.Create a SKILL.md file in the Lab3 folder for an Entity Framework skill. This skill should be used when adding or modifying EF model classes, configuring DbContext, generating migrations, and updating the database. The skill should document: when to use it, step by step process for adding a new model class with EF annotations, how to configure relationships in DbContext OnModelCreating, how to generate and apply migrations, and common errors with solutions (like the cascade delete cycle error and decimal precision warnings we encountered).
+6.In folder lab3 create a SKILL2.md file for MVC CRUD pages skill. This skill should be used when creating List (Index) pages or Create/Edit form pages for any entity in the ASP.NET MVC project. Document: when to use it, how to add controller actions for Index/Details/Create/Edit, how the views should look with tag helpers, validation, navigation links, and dropdown handling for foreign keys. Use existing controllers and views in this project as reference for patterns.
+7.

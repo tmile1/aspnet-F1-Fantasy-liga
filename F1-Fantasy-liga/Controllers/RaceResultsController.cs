@@ -1,35 +1,46 @@
-using F1_Fantasy_liga.Repositories;
+using F1_Fantasy_liga.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F1_Fantasy_liga.Controllers
 {
+    [Route("race-results")]
     public class RaceResultsController : Controller
     {
-        private readonly RaceResultMockRepository _raceResultRepository;
+        private readonly F1DbContext _db;
 
-        public RaceResultsController(RaceResultMockRepository raceResultRepository)
+        public RaceResultsController(F1DbContext db)
         {
-            _raceResultRepository = raceResultRepository;
+            _db = db;
         }
 
+        [HttpGet("")]
         public IActionResult Index(string? raceSearch)
         {
-            var raceResults = _raceResultRepository.GetAll();
+            var raceResultsQuery = _db.RaceResults
+                .Include(r => r.Race)
+                .Include(r => r.Driver)
+                .ThenInclude(d => d.Constructor)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(raceSearch))
             {
-                raceResults = raceResults
-                    .Where(r => (r.Race?.Name ?? string.Empty).Contains(raceSearch, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
+                raceResultsQuery = raceResultsQuery
+                    .Where(r => r.Race != null && r.Race.Name.Contains(raceSearch));
             }
 
             ViewData["RaceSearch"] = raceSearch;
-            return View(raceResults);
+            return View(raceResultsQuery.ToList());
         }
 
+        [HttpGet("{id:int}")]
         public IActionResult Details(int id)
         {
-            var raceResult = _raceResultRepository.GetById(id);
+            var raceResult = _db.RaceResults
+                .Include(r => r.Race)
+                .Include(r => r.Driver)
+                .ThenInclude(d => d.Constructor)
+                .FirstOrDefault(r => r.Id == id);
             if (raceResult is null)
             {
                 return NotFound();
