@@ -30,8 +30,6 @@ namespace F1_Fantasy_liga.Controllers
             var constructor = _db.Constructors
                 .Include(c => c.Drivers)
                 .ThenInclude(d => d.RaceResults)
-                .Include(c => c.Drivers)
-                .ThenInclude(d => d.Constructor)
                 .FirstOrDefault(c => c.Id == id);
             if (constructor is null)
             {
