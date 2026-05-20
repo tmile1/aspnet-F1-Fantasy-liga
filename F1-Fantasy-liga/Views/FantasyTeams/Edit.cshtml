@@ -1,0 +1,85 @@
+@model F1_Fantasy_liga.Models.FantasyTeam
+
+@{
+    ViewData["Title"] = "Edit Fantasy Team";
+}
+
+<h1>Edit Fantasy Team</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-card">
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-row">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-input" />
+        <span asp-validation-for="Name" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Budget" class="form-label"></label>
+        <input asp-for="Budget" class="form-input" type="number" step="0.01" min="0" />
+        <span asp-validation-for="Budget" class="form-error"></span>
+    </div>
+
+    @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
+    {
+        Label = "User",
+        HiddenInputName = nameof(Model.UserId),
+        HiddenInputId = "user-id",
+        DisplayInputId = "user-name",
+        SearchUrl = Url.Action("AutocompleteUsers", "FantasyTeams") ?? string.Empty,
+        Placeholder = "Search users...",
+        SelectedId = Model.UserId,
+        SelectedText = ViewBag.UserName as string ?? (Model.User != null ? Model.User.Name + " " + Model.User.Surname : string.Empty)
+    })
+
+    @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
+    {
+        Label = "Constructor",
+        HiddenInputName = nameof(Model.ConstructorId),
+        HiddenInputId = "constructor-id",
+        DisplayInputId = "constructor-name",
+        SearchUrl = Url.Action("AutocompleteConstructors", "FantasyTeams") ?? string.Empty,
+        Placeholder = "Search constructors...",
+        SelectedId = Model.ConstructorId,
+        SelectedText = ViewBag.ConstructorName as string ?? Model.Constructor?.Name ?? string.Empty
+    })
+
+    @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
+    {
+        Label = "Fantasy league",
+        HiddenInputName = nameof(Model.FantasyLeagueId),
+        HiddenInputId = "league-id",
+        DisplayInputId = "league-name",
+        SearchUrl = Url.Action("AutocompleteLeagues", "FantasyTeams") ?? string.Empty,
+        Placeholder = "Search leagues...",
+        SelectedId = Model.FantasyLeagueId,
+        SelectedText = ViewBag.LeagueName as string ?? Model.FantasyLeague?.Name ?? string.Empty
+    })
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Save changes</button>
+        <a class="details-btn secondary" asp-action="Index">Cancel</a>
+        <a class="details-btn secondary" asp-action="ManageDrivers" asp-route-id="@Model.Id">Manage drivers</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            if ($.validator && $.validator.setDefaults) {
+                $.validator.setDefaults({
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        this.element(element);
+                    }
+                });
+            }
+        });
+    </script>
+}

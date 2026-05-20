@@ -1,0 +1,22 @@
+@model IEnumerable<F1_Fantasy_liga.Models.RaceResult>
+
+@foreach (var item in Model)
+{
+    <tr class="row-link" data-href="@Url.Action("Details", new { id = item.Id })" tabindex="0" role="link">
+        <td>@item.Id</td>
+        <td>@item.Race?.Name</td>
+        <td>@item.Driver?.Name @item.Driver?.Surname</td>
+        <td>@item.FinishedPosition</td>
+        <td>@item.ScoredPoints</td>
+        <td><a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
+        <td><a class="details-btn secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a></td>
+        <td>
+            <button type="button"
+                    class="details-btn danger delete-trigger"
+                    data-delete-url="@Url.Action("Delete", new { id = item.Id })"
+                    data-entity-name="@item.Race?.Name - @item.Driver?.Name @item.Driver?.Surname">
+                Delete
+            </button>
+        </td>
+    </tr>
+}

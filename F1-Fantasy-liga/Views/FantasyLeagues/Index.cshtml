@@ -1,33 +1,65 @@
 @model IEnumerable<F1_Fantasy_liga.Models.FantasyLeague>
 
-<h1>Fantasy Leagues</h1>
-
-<div class="card-grid">
-    @foreach (var item in Model)
-    {
-        <div class="custom-card clickable-card row-link" data-href="@Url.Action("Details", new { id = item.Id })" tabindex="0" role="link">
-            <h3 class="card-title">@item.Name</h3>
-            <div class="card-body">
-                <div class="card-info-row">
-                    <span class="card-info-label">Id</span>
-                    <span class="card-info-value">@item.Id</span>
-                </div>
-                <div class="card-info-row">
-                    <span class="card-info-label">Type</span>
-                    <span class="card-info-value">@item.LeagueType</span>
-                </div>
-                <div class="card-info-row">
-                    <span class="card-info-label">Start</span>
-                    <span class="card-info-value">@item.StartDate.ToString("dd.MM.yyyy")</span>
-                </div>
-                <div class="card-info-row">
-                    <span class="card-info-label">End</span>
-                    <span class="card-info-value">@item.EndDate.ToString("dd.MM.yyyy")</span>
-                </div>
-            </div>
-            <div class="card-actions">
-                <a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
-            </div>
-        </div>
-    }
+<div class="page-header">
+    <h1>Fantasy Leagues</h1>
+    <a class="details-btn" asp-action="Create">New league</a>
 </div>
+
+<form method="get" asp-action="Index" class="search-row" data-search-url="@Url.Action("Search")">
+    <input type="text"
+           id="fantasy-leagues-search-input"
+           name="q"
+           class="search-input"
+           placeholder="Search leagues..." />
+    <button type="submit" class="details-btn">Search</button>
+    <a asp-action="Index" class="back-btn">Clear</a>
+</form>
+
+<div class="card-grid" id="fantasy-leagues-results">
+    @await Html.PartialAsync("_FantasyLeaguesCards", Model)
+</div>
+
+<div class="modal-backdrop" id="delete-modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+        <h2 class="modal-title" id="delete-modal-title">Delete league</h2>
+        <p class="modal-text">Are you sure you want to delete <span id="delete-entity-name"></span>?</p>
+        <form method="post" id="delete-form">
+            @Html.AntiForgeryToken()
+            <div class="modal-actions">
+                <button type="submit" class="details-btn danger">Yes</button>
+                <button type="button" class="details-btn secondary" data-modal-close>No</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            const searchInput = document.getElementById("fantasy-leagues-search-input");
+            const results = document.getElementById("fantasy-leagues-results");
+            const searchForm = document.querySelector(".search-row");
+            if (!searchInput || !results || !searchForm) {
+                return;
+            }
+
+            let debounceTimer;
+            const searchUrl = searchForm.getAttribute("data-search-url");
+
+            const runSearch = () => {
+                const term = searchInput.value.trim();
+                const url = `${searchUrl}?term=${encodeURIComponent(term)}`;
+                fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+                    .then((response) => response.text())
+                    .then((html) => {
+                        results.innerHTML = html;
+                    });
+            };
+
+            searchInput.addEventListener("input", () => {
+                window.clearTimeout(debounceTimer);
+                debounceTimer = window.setTimeout(runSearch, 250);
+            });
+        });
+    </script>
+}

@@ -1,6 +1,19 @@
 @model IEnumerable<F1_Fantasy_liga.Models.User>
 
-<h1>Users</h1>
+<div class="page-header">
+    <h1>Users</h1>
+    <a class="details-btn" asp-action="Create">New user</a>
+</div>
+
+<form method="get" asp-action="Index" class="search-row" data-search-url="@Url.Action("Search")">
+    <input type="text"
+           id="users-search-input"
+           name="q"
+           class="search-input"
+           placeholder="Search users..." />
+    <button type="submit" class="details-btn">Search</button>
+    <a asp-action="Index" class="back-btn">Clear</a>
+</form>
 
 <table border="1" cellpadding="6" cellspacing="0">
     <thead>
@@ -10,18 +23,56 @@
             <th>Email</th>
             <th>Role</th>
             <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="row-link" data-href="@Url.Action("Details", new { id = item.Id })" tabindex="0" role="link">
-            <td>@item.Id</td>
-            <td>@item.Name @item.Surname</td>
-            <td>@item.Email</td>
-            <td>@item.Role</td>
-            <td><a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a></td>
-        </tr>
-    }
+    <tbody id="users-results">
+        @await Html.PartialAsync("_UsersTableBody", Model)
     </tbody>
 </table>
+
+<div class="modal-backdrop" id="delete-modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+        <h2 class="modal-title" id="delete-modal-title">Delete user</h2>
+        <p class="modal-text">Are you sure you want to delete <span id="delete-entity-name"></span>?</p>
+        <form method="post" id="delete-form">
+            @Html.AntiForgeryToken()
+            <div class="modal-actions">
+                <button type="submit" class="details-btn danger">Yes</button>
+                <button type="button" class="details-btn secondary" data-modal-close>No</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            const searchInput = document.getElementById("users-search-input");
+            const results = document.getElementById("users-results");
+            const searchForm = document.querySelector(".search-row");
+            if (!searchInput || !results || !searchForm) {
+                return;
+            }
+
+            let debounceTimer;
+            const searchUrl = searchForm.getAttribute("data-search-url");
+
+            const runSearch = () => {
+                const term = searchInput.value.trim();
+                const url = `${searchUrl}?term=${encodeURIComponent(term)}`;
+                fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+                    .then((response) => response.text())
+                    .then((html) => {
+                        results.innerHTML = html;
+                    });
+            };
+
+            searchInput.addEventListener("input", () => {
+                window.clearTimeout(debounceTimer);
+                debounceTimer = window.setTimeout(runSearch, 250);
+            });
+        });
+    </script>
+}

@@ -1,0 +1,47 @@
+@model IEnumerable<F1_Fantasy_liga.Models.Constructor>
+
+@foreach (var item in Model)
+{
+    var teamClass = item.Name switch
+    {
+        "Red Bull Racing" => "team-redbull",
+        "Scuderia Ferrari" => "team-ferrari",
+        "Mercedes-AMG Petronas" => "team-mercedes",
+        "McLaren" => "team-mclaren",
+        "Aston Martin" => "team-astonmartin",
+        "Alpine" => "team-alpine",
+        "Williams" => "team-williams",
+        "Visa Cash App RB" => "team-visarb",
+        "Kick Sauber" => "team-sauber",
+        "Haas F1 Team" => "team-haas",
+        _ => string.Empty
+    };
+
+    <div class="custom-card clickable-card accent-card @teamClass row-link" data-href="@Url.Action("Details", new { id = item.Id })" tabindex="0" role="link">
+        <h3 class="card-title">@item.Name</h3>
+        <div class="card-body">
+            <div class="card-info-row">
+                <span class="card-info-label">Id</span>
+                <span class="card-info-value">@item.Id</span>
+            </div>
+            <div class="card-info-row">
+                <span class="card-info-label">Nationality</span>
+                <span class="card-info-value">@item.Nationality</span>
+            </div>
+            <div class="card-info-row">
+                <span class="card-info-label">Points</span>
+                <span class="card-info-value">@item.Points</span>
+            </div>
+        </div>
+        <div class="card-actions">
+            <a class="details-btn" asp-action="Details" asp-route-id="@item.Id">Details</a>
+            <a class="details-btn secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+            <button type="button"
+                    class="details-btn danger delete-trigger"
+                    data-delete-url="@Url.Action("Delete", new { id = item.Id })"
+                    data-entity-name="@item.Name">
+                Delete
+            </button>
+        </div>
+    </div>
+}

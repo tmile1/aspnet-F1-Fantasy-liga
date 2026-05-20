@@ -1,0 +1,17 @@
+@model F1_Fantasy_liga.Models.AutocompleteFieldViewModel
+
+<div class="form-row autocomplete-field" data-autocomplete-url="@Model.SearchUrl">
+    <label class="form-label" for="@Model.DisplayInputId">@Model.Label</label>
+    <input type="text"
+           id="@Model.DisplayInputId"
+           class="form-input autocomplete-input"
+           value="@Model.SelectedText"
+           placeholder="@Model.Placeholder"
+           autocomplete="off" />
+    <input type="hidden"
+           id="@Model.HiddenInputId"
+           name="@Model.HiddenInputName"
+           value="@(Model.SelectedId?.ToString() ?? string.Empty)" />
+    <div class="autocomplete-menu" aria-live="polite"></div>
+    <span class="form-error field-validation-valid" data-valmsg-for="@Model.HiddenInputName" data-valmsg-replace="true"></span>
+</div>

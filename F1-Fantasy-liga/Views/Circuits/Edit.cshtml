@@ -1,0 +1,54 @@
+@model F1_Fantasy_liga.Models.Circuit
+
+@{
+    ViewData["Title"] = "Edit Circuit";
+}
+
+<h1>Edit Circuit</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-card">
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    <input asp-for="Id" type="hidden" />
+
+    <div class="form-row">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-input" />
+        <span asp-validation-for="Name" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Country" class="form-label"></label>
+        <input asp-for="Country" class="form-input" />
+        <span asp-validation-for="Country" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="City" class="form-label"></label>
+        <input asp-for="City" class="form-input" />
+        <span asp-validation-for="City" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Length" class="form-label"></label>
+        <input asp-for="Length" class="form-input" type="number" step="0.01" min="0" />
+        <span asp-validation-for="Length" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="NumberOfLaps" class="form-label"></label>
+        <input asp-for="NumberOfLaps" class="form-input" type="number" step="1" min="1" />
+        <span asp-validation-for="NumberOfLaps" class="form-error"></span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Save changes</button>
+        <a class="details-btn secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

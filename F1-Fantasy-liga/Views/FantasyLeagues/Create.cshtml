@@ -1,0 +1,64 @@
+@model F1_Fantasy_liga.Models.FantasyLeague
+
+@{
+    ViewData["Title"] = "New Fantasy League";
+}
+
+<h1>New Fantasy League</h1>
+
+<form asp-action="Create" method="post" class="form-card">
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-input" />
+        <span asp-validation-for="Name" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-input" rows="3"></textarea>
+        <span asp-validation-for="Description" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="StartDate" class="form-label"></label>
+        <input asp-for="StartDate" class="form-input" type="date" />
+        <span asp-validation-for="StartDate" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="EndDate" class="form-label"></label>
+        <input asp-for="EndDate" class="form-input" type="date" />
+        <span asp-validation-for="EndDate" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="LeagueType" class="form-label">League type</label>
+        <select asp-for="LeagueType" asp-items="ViewBag.LeagueTypes" class="form-input"></select>
+        <span asp-validation-for="LeagueType" class="form-error"></span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Create</button>
+        <a class="details-btn secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            if ($.validator && $.validator.setDefaults) {
+                $.validator.setDefaults({
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        this.element(element);
+                    }
+                });
+            }
+        });
+    </script>
+}

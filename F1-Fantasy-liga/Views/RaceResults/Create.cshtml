@@ -1,0 +1,70 @@
+@model F1_Fantasy_liga.Models.RaceResult
+
+@{
+    ViewData["Title"] = "New Race Result";
+}
+
+<h1>New Race Result</h1>
+
+<form asp-action="Create" method="post" class="form-card">
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
+    {
+        Label = "Race",
+        HiddenInputName = nameof(Model.RaceId),
+        HiddenInputId = "race-id",
+        DisplayInputId = "race-name",
+        SearchUrl = Url.Action("Autocomplete", "Races") ?? string.Empty,
+        Placeholder = "Search races...",
+        SelectedId = Model.RaceId,
+        SelectedText = ViewBag.RaceName as string ?? string.Empty
+    })
+
+    @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
+    {
+        Label = "Driver",
+        HiddenInputName = nameof(Model.DriverId),
+        HiddenInputId = "driver-id",
+        DisplayInputId = "driver-name",
+        SearchUrl = Url.Action("Autocomplete", "Drivers") ?? string.Empty,
+        Placeholder = "Search drivers...",
+        SelectedId = Model.DriverId,
+        SelectedText = ViewBag.DriverName as string ?? string.Empty
+    })
+
+    <div class="form-row">
+        <label asp-for="FinishedPosition" class="form-label"></label>
+        <input asp-for="FinishedPosition" class="form-input" type="number" step="1" min="1" max="25" />
+        <span asp-validation-for="FinishedPosition" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="DriverStatus" class="form-label">Driver status</label>
+        <select asp-for="DriverStatus" asp-items="ViewBag.DriverStatuses" class="form-input"></select>
+        <span asp-validation-for="DriverStatus" class="form-error"></span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Create</button>
+        <a class="details-btn secondary" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            if ($.validator && $.validator.setDefaults) {
+                $.validator.setDefaults({
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        this.element(element);
+                    }
+                });
+            }
+        });
+    </script>
+}

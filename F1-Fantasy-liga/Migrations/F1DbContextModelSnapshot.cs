@@ -139,18 +139,27 @@ namespace F1_Fantasy_liga.Migrations
 
                     b.Property<string>("City")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Country")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<double>("Length")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("NumberOfLaps")
                         .HasColumnType("int");
@@ -165,6 +174,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 1,
                             City = "Sakhir",
                             Country = "Bahrain",
+                            IsDeleted = false,
                             Length = 5.4119999999999999,
                             Name = "Bahrain International Circuit",
                             NumberOfLaps = 57
@@ -174,6 +184,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 2,
                             City = "Monte Carlo",
                             Country = "Monaco",
+                            IsDeleted = false,
                             Length = 3.3370000000000002,
                             Name = "Circuit de Monaco",
                             NumberOfLaps = 78
@@ -183,6 +194,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 3,
                             City = "Monza",
                             Country = "Italy",
+                            IsDeleted = false,
                             Length = 5.7930000000000001,
                             Name = "Autodromo Nazionale Monza",
                             NumberOfLaps = 53
@@ -197,16 +209,24 @@ namespace F1_Fantasy_liga.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("FoundedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Nationality")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -217,6 +237,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 1,
                             FoundedDate = new DateTime(2005, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Red Bull Racing",
                             Nationality = "Austrian"
                         },
@@ -224,6 +245,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 2,
                             FoundedDate = new DateTime(1950, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Scuderia Ferrari",
                             Nationality = "Italian"
                         },
@@ -231,6 +253,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 3,
                             FoundedDate = new DateTime(1954, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Mercedes-AMG Petronas",
                             Nationality = "German"
                         },
@@ -238,6 +261,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 4,
                             FoundedDate = new DateTime(1963, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "McLaren",
                             Nationality = "British"
                         },
@@ -245,6 +269,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 5,
                             FoundedDate = new DateTime(2021, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Aston Martin",
                             Nationality = "British"
                         },
@@ -252,6 +277,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 6,
                             FoundedDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Alpine",
                             Nationality = "French"
                         },
@@ -259,6 +285,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 7,
                             FoundedDate = new DateTime(1977, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Williams",
                             Nationality = "British"
                         },
@@ -266,6 +293,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 8,
                             FoundedDate = new DateTime(2024, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Visa Cash App RB",
                             Nationality = "Italian"
                         },
@@ -273,6 +301,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 9,
                             FoundedDate = new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Kick Sauber",
                             Nationality = "Swiss"
                         },
@@ -280,6 +309,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 10,
                             FoundedDate = new DateTime(2016, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             Name = "Haas F1 Team",
                             Nationality = "American"
                         });
@@ -296,9 +326,16 @@ namespace F1_Fantasy_liga.Migrations
                     b.Property<int>("ConstructorId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("Number")
                         .HasColumnType("int");
@@ -308,7 +345,8 @@ namespace F1_Fantasy_liga.Migrations
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -321,6 +359,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 1,
                             ConstructorId = 1,
+                            IsDeleted = false,
                             Name = "Max",
                             Number = 1,
                             Price = 33.5m,
@@ -330,6 +369,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 2,
                             ConstructorId = 1,
+                            IsDeleted = false,
                             Name = "Sergio",
                             Number = 11,
                             Price = 18.0m,
@@ -339,6 +379,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 3,
                             ConstructorId = 2,
+                            IsDeleted = false,
                             Name = "Charles",
                             Number = 16,
                             Price = 26.5m,
@@ -348,6 +389,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 4,
                             ConstructorId = 2,
+                            IsDeleted = false,
                             Name = "Carlos",
                             Number = 55,
                             Price = 23.0m,
@@ -357,6 +399,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 5,
                             ConstructorId = 3,
+                            IsDeleted = false,
                             Name = "Lewis",
                             Number = 44,
                             Price = 28.0m,
@@ -366,6 +409,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 6,
                             ConstructorId = 3,
+                            IsDeleted = false,
                             Name = "George",
                             Number = 63,
                             Price = 21.0m,
@@ -375,6 +419,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 7,
                             ConstructorId = 4,
+                            IsDeleted = false,
                             Name = "Lando",
                             Number = 4,
                             Price = 25.0m,
@@ -384,6 +429,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 8,
                             ConstructorId = 4,
+                            IsDeleted = false,
                             Name = "Oscar",
                             Number = 81,
                             Price = 21.5m,
@@ -393,6 +439,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 9,
                             ConstructorId = 5,
+                            IsDeleted = false,
                             Name = "Fernando",
                             Number = 14,
                             Price = 24.0m,
@@ -402,6 +449,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 10,
                             ConstructorId = 5,
+                            IsDeleted = false,
                             Name = "Lance",
                             Number = 18,
                             Price = 16.0m,
@@ -411,6 +459,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 11,
                             ConstructorId = 6,
+                            IsDeleted = false,
                             Name = "Esteban",
                             Number = 31,
                             Price = 17.5m,
@@ -420,6 +469,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 12,
                             ConstructorId = 6,
+                            IsDeleted = false,
                             Name = "Pierre",
                             Number = 10,
                             Price = 18.0m,
@@ -429,6 +479,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 13,
                             ConstructorId = 7,
+                            IsDeleted = false,
                             Name = "Alexander",
                             Number = 23,
                             Price = 15.5m,
@@ -438,6 +489,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 14,
                             ConstructorId = 7,
+                            IsDeleted = false,
                             Name = "Logan",
                             Number = 2,
                             Price = 12.0m,
@@ -447,6 +499,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 15,
                             ConstructorId = 8,
+                            IsDeleted = false,
                             Name = "Yuki",
                             Number = 22,
                             Price = 17.0m,
@@ -456,6 +509,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 16,
                             ConstructorId = 8,
+                            IsDeleted = false,
                             Name = "Daniel",
                             Number = 3,
                             Price = 18.5m,
@@ -465,6 +519,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 17,
                             ConstructorId = 9,
+                            IsDeleted = false,
                             Name = "Valtteri",
                             Number = 77,
                             Price = 16.5m,
@@ -474,6 +529,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 18,
                             ConstructorId = 9,
+                            IsDeleted = false,
                             Name = "Guanyu",
                             Number = 24,
                             Price = 15.0m,
@@ -483,6 +539,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 19,
                             ConstructorId = 10,
+                            IsDeleted = false,
                             Name = "Kevin",
                             Number = 20,
                             Price = 15.5m,
@@ -492,6 +549,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 20,
                             ConstructorId = 10,
+                            IsDeleted = false,
                             Name = "Nico",
                             Number = 27,
                             Price = 16.0m,
@@ -507,19 +565,27 @@ namespace F1_Fantasy_liga.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("LeagueType")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -534,6 +600,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 1,
                             Description = "Privatna fantasy liga",
                             EndDate = new DateTime(2024, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             LeagueType = 0,
                             Name = "Prijatelji Liga 2024",
                             StartDate = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -543,6 +610,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 2,
                             Description = "Otvorena liga za sve",
                             EndDate = new DateTime(2024, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             LeagueType = 1,
                             Name = "Javna Liga 2024",
                             StartDate = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -552,6 +620,7 @@ namespace F1_Fantasy_liga.Migrations
                             Id = 3,
                             Description = "Liga za napredne igrače",
                             EndDate = new DateTime(2024, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsDeleted = false,
                             LeagueType = 0,
                             Name = "Elitna Liga 2024",
                             StartDate = new DateTime(2024, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
@@ -572,12 +641,19 @@ namespace F1_Fantasy_liga.Migrations
                     b.Property<int>("ConstructorId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("FantasyLeagueId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -599,6 +675,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 88.5m,
                             ConstructorId = 2,
                             FantasyLeagueId = 1,
+                            IsDeleted = false,
                             Name = "Speed Demons",
                             UserId = 1
                         },
@@ -608,6 +685,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 71.0m,
                             ConstructorId = 3,
                             FantasyLeagueId = 1,
+                            IsDeleted = false,
                             Name = "Tifosi Forza",
                             UserId = 2
                         },
@@ -617,6 +695,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 80.0m,
                             ConstructorId = 1,
                             FantasyLeagueId = 2,
+                            IsDeleted = false,
                             Name = "Verstappen Fan Club",
                             UserId = 3
                         },
@@ -626,6 +705,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 88.5m,
                             ConstructorId = 2,
                             FantasyLeagueId = 3,
+                            IsDeleted = false,
                             Name = "One Man Wolf Pack",
                             UserId = 1
                         },
@@ -635,6 +715,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 71.0m,
                             ConstructorId = 3,
                             FantasyLeagueId = 3,
+                            IsDeleted = false,
                             Name = "Forza England",
                             UserId = 2
                         },
@@ -644,6 +725,7 @@ namespace F1_Fantasy_liga.Migrations
                             Budget = 80.0m,
                             ConstructorId = 1,
                             FantasyLeagueId = 3,
+                            IsDeleted = false,
                             Name = "LH44",
                             UserId = 3
                         });
@@ -660,9 +742,16 @@ namespace F1_Fantasy_liga.Migrations
                     b.Property<int>("CircuitId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime>("RaceDate")
                         .HasColumnType("datetime2");
@@ -678,6 +767,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 1,
                             CircuitId = 1,
+                            IsDeleted = false,
                             Name = "Bahrain Grand Prix",
                             RaceDate = new DateTime(2024, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -685,6 +775,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 2,
                             CircuitId = 2,
+                            IsDeleted = false,
                             Name = "Monaco Grand Prix",
                             RaceDate = new DateTime(2024, 5, 26, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         },
@@ -692,6 +783,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 3,
                             CircuitId = 3,
+                            IsDeleted = false,
                             Name = "Italian Grand Prix",
                             RaceDate = new DateTime(2024, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -705,6 +797,9 @@ namespace F1_Fantasy_liga.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DriverId")
                         .HasColumnType("int");
 
@@ -713,6 +808,9 @@ namespace F1_Fantasy_liga.Migrations
 
                     b.Property<int>("FinishedPosition")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("RaceId")
                         .HasColumnType("int");
@@ -735,6 +833,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 1,
                             DriverStatus = 0,
                             FinishedPosition = 1,
+                            IsDeleted = false,
                             RaceId = 1,
                             ScoredPoints = 25
                         },
@@ -744,6 +843,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 4,
                             DriverStatus = 0,
                             FinishedPosition = 2,
+                            IsDeleted = false,
                             RaceId = 1,
                             ScoredPoints = 18
                         },
@@ -753,6 +853,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 3,
                             DriverStatus = 0,
                             FinishedPosition = 3,
+                            IsDeleted = false,
                             RaceId = 1,
                             ScoredPoints = 15
                         },
@@ -762,6 +863,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 5,
                             DriverStatus = 0,
                             FinishedPosition = 4,
+                            IsDeleted = false,
                             RaceId = 1,
                             ScoredPoints = 12
                         },
@@ -771,6 +873,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 2,
                             DriverStatus = 2,
                             FinishedPosition = 0,
+                            IsDeleted = false,
                             RaceId = 1,
                             ScoredPoints = 0
                         },
@@ -780,6 +883,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 3,
                             DriverStatus = 0,
                             FinishedPosition = 1,
+                            IsDeleted = false,
                             RaceId = 2,
                             ScoredPoints = 25
                         },
@@ -789,6 +893,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 1,
                             DriverStatus = 0,
                             FinishedPosition = 2,
+                            IsDeleted = false,
                             RaceId = 2,
                             ScoredPoints = 18
                         },
@@ -798,6 +903,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 5,
                             DriverStatus = 0,
                             FinishedPosition = 3,
+                            IsDeleted = false,
                             RaceId = 2,
                             ScoredPoints = 15
                         },
@@ -807,6 +913,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 6,
                             DriverStatus = 3,
                             FinishedPosition = 0,
+                            IsDeleted = false,
                             RaceId = 2,
                             ScoredPoints = 0
                         },
@@ -816,6 +923,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 3,
                             DriverStatus = 0,
                             FinishedPosition = 1,
+                            IsDeleted = false,
                             RaceId = 3,
                             ScoredPoints = 25
                         },
@@ -825,6 +933,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 5,
                             DriverStatus = 0,
                             FinishedPosition = 2,
+                            IsDeleted = false,
                             RaceId = 3,
                             ScoredPoints = 18
                         },
@@ -834,6 +943,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 6,
                             DriverStatus = 0,
                             FinishedPosition = 3,
+                            IsDeleted = false,
                             RaceId = 3,
                             ScoredPoints = 15
                         },
@@ -843,6 +953,7 @@ namespace F1_Fantasy_liga.Migrations
                             DriverId = 1,
                             DriverStatus = 2,
                             FinishedPosition = 0,
+                            IsDeleted = false,
                             RaceId = 3,
                             ScoredPoints = 0
                         });
@@ -856,24 +967,34 @@ namespace F1_Fantasy_liga.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -884,6 +1005,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 1,
                             Email = "marko@email.com",
+                            IsDeleted = false,
                             Name = "Marko",
                             PasswordHash = "hash1",
                             Role = 0,
@@ -893,6 +1015,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 2,
                             Email = "ivana@email.com",
+                            IsDeleted = false,
                             Name = "Ivana",
                             PasswordHash = "hash2",
                             Role = 1,
@@ -902,6 +1025,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 3,
                             Email = "pero@email.com",
+                            IsDeleted = false,
                             Name = "Pero",
                             PasswordHash = "hash3",
                             Role = 1,
