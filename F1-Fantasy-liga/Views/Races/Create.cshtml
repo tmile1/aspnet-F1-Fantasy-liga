@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "New Race";
+    var raceDateValue = Model.RaceDate == default ? string.Empty : Model.RaceDate.ToString("yyyy-MM-dd");
+    var raceTimeValue = Model.RaceDate == default ? string.Empty : Model.RaceDate.ToString("HH:mm");
 }
 
 <h1>New Race</h1>
@@ -17,11 +19,15 @@
         <span asp-validation-for="Name" class="form-error"></span>
     </div>
 
-    <div class="form-row">
-        <label asp-for="RaceDate" class="form-label"></label>
-        <input asp-for="RaceDate" class="form-input" type="datetime-local" />
-        <span asp-validation-for="RaceDate" class="form-error"></span>
-    </div>
+    @await Html.PartialAsync("_DatePicker", new DatePickerViewModel
+    {
+        Label = "Race date",
+        InputName = nameof(Model.RaceDate),
+        InputId = "race-date",
+        DateValue = raceDateValue,
+        TimeValue = raceTimeValue,
+        ShowTime = true
+    })
 
     @await Html.PartialAsync("_AutocompleteDropdown", new AutocompleteFieldViewModel
     {

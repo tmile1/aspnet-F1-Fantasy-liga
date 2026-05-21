@@ -9,8 +9,12 @@
         <p><strong>Name:</strong> @Model.Name</p>
         <p><strong>Description:</strong> @Model.Description</p>
         <p><strong>Type:</strong> @Model.LeagueType</p>
-        <p><strong>Start Date:</strong> @Model.StartDate.ToString("dd.MM.yyyy")</p>
-        <p><strong>End Date:</strong> @Model.EndDate.ToString("dd.MM.yyyy")</p>
+        <p><strong>Start Date:</strong>
+            <span data-date-display data-iso="@Model.StartDate.ToString("yyyy-MM-dd")">@Model.StartDate.ToString("dd.MM.yyyy")</span>
+        </p>
+        <p><strong>End Date:</strong>
+            <span data-date-display data-iso="@Model.EndDate.ToString("yyyy-MM-dd")">@Model.EndDate.ToString("dd.MM.yyyy")</span>
+        </p>
         <div style="margin-top: 24px;">
             <a class="back-btn" asp-action="Index">Back to list</a>
         </div>
@@ -21,6 +25,36 @@
         @if (Model.FantasyTeams.Any())
         {
             var orderedTeams = Model.FantasyTeams.OrderByDescending(t => t.Points).ToList();
+            var podiumTeams = orderedTeams.Take(3).ToList();
+            if (podiumTeams.Any())
+            {
+                <div class="podium" aria-label="Top 3 teams">
+                    @if (podiumTeams.Count > 1)
+                    {
+                        var second = podiumTeams[1];
+                        <div class="podium-block podium-second">
+                            <div class="podium-rank">2</div>
+                            <div class="podium-name">@second.Name</div>
+                            <div class="podium-points">@second.Points pts</div>
+                        </div>
+                    }
+                    <div class="podium-block podium-first">
+                        <div class="podium-rank">1</div>
+                        <div class="podium-name">@podiumTeams[0].Name</div>
+                        <div class="podium-points">@podiumTeams[0].Points pts</div>
+                    </div>
+                    @if (podiumTeams.Count > 2)
+                    {
+                        var third = podiumTeams[2];
+                        <div class="podium-block podium-third">
+                            <div class="podium-rank">3</div>
+                            <div class="podium-name">@third.Name</div>
+                            <div class="podium-points">@third.Points pts</div>
+                        </div>
+                    }
+                </div>
+            }
+
             <table border="1" cellpadding="6" cellspacing="0">
                 <thead>
                     <tr>

@@ -15,11 +15,11 @@
             </div>
             <div class="card-info-row">
                 <span class="card-info-label">Start</span>
-                <span class="card-info-value">@item.StartDate.ToString("dd.MM.yyyy")</span>
+                <span class="card-info-value" data-date-display data-iso="@item.StartDate.ToString("yyyy-MM-dd")">@item.StartDate.ToString("dd.MM.yyyy")</span>
             </div>
             <div class="card-info-row">
                 <span class="card-info-label">End</span>
-                <span class="card-info-value">@item.EndDate.ToString("dd.MM.yyyy")</span>
+                <span class="card-info-value" data-date-display data-iso="@item.EndDate.ToString("yyyy-MM-dd")">@item.EndDate.ToString("dd.MM.yyyy")</span>
             </div>
         </div>
         <div class="card-actions">

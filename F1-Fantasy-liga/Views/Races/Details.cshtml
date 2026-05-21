@@ -7,7 +7,9 @@
         <h2>Info</h2>
         <p><strong>Id:</strong> @Model.Id</p>
         <p><strong>Name:</strong> @Model.Name</p>
-        <p><strong>Date:</strong> @Model.RaceDate.ToString("dd.MM.yyyy")</p>
+        <p><strong>Date:</strong>
+            <span data-date-display data-iso="@Model.RaceDate.ToString("yyyy-MM-dd")">@Model.RaceDate.ToString("dd.MM.yyyy")</span>
+        </p>
         <p><strong>Circuit:</strong> @Model.Circuit?.Name</p>
         <div style="margin-top: 24px;">
             <a class="back-btn" asp-action="Index">Back to list</a>

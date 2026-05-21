@@ -8,7 +8,16 @@
         <p><strong>Id:</strong> @Model.Id</p>
         <p><strong>Name:</strong> @Model.Name</p>
         <p><strong>Nationality:</strong> @Model.Nationality</p>
-        <p><strong>Founded Date:</strong> @(Model.FoundedDate?.ToString("dd.MM.yyyy") ?? "N/A")</p>
+        <p><strong>Founded Date:</strong>
+            @if (Model.FoundedDate.HasValue)
+            {
+                <span data-date-display data-iso="@Model.FoundedDate.Value.ToString("yyyy-MM-dd")">@Model.FoundedDate.Value.ToString("dd.MM.yyyy")</span>
+            }
+            else
+            {
+                <span>N/A</span>
+            }
+        </p>
         <p><strong>Points:</strong> @Model.Points</p>
         <div style="margin-top: 24px;">
             <a class="back-btn" asp-action="Index">Back to list</a>

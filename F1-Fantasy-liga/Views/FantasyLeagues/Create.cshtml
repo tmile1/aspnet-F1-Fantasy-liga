@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "New Fantasy League";
+    var startDateValue = Model.StartDate == default ? string.Empty : Model.StartDate.ToString("yyyy-MM-dd");
+    var startTimeValue = Model.StartDate == default ? string.Empty : Model.StartDate.ToString("HH:mm");
+    var endDateValue = Model.EndDate == default ? string.Empty : Model.EndDate.ToString("yyyy-MM-dd");
+    var endTimeValue = Model.EndDate == default ? string.Empty : Model.EndDate.ToString("HH:mm");
 }
 
 <h1>New Fantasy League</h1>
@@ -23,17 +27,25 @@
         <span asp-validation-for="Description" class="form-error"></span>
     </div>
 
-    <div class="form-row">
-        <label asp-for="StartDate" class="form-label"></label>
-        <input asp-for="StartDate" class="form-input" type="date" />
-        <span asp-validation-for="StartDate" class="form-error"></span>
-    </div>
+    @await Html.PartialAsync("_DatePicker", new DatePickerViewModel
+    {
+        Label = "Start date",
+        InputName = nameof(Model.StartDate),
+        InputId = "start-date",
+        DateValue = startDateValue,
+        TimeValue = startTimeValue,
+        ShowTime = true
+    })
 
-    <div class="form-row">
-        <label asp-for="EndDate" class="form-label"></label>
-        <input asp-for="EndDate" class="form-input" type="date" />
-        <span asp-validation-for="EndDate" class="form-error"></span>
-    </div>
+    @await Html.PartialAsync("_DatePicker", new DatePickerViewModel
+    {
+        Label = "End date",
+        InputName = nameof(Model.EndDate),
+        InputId = "end-date",
+        DateValue = endDateValue,
+        TimeValue = endTimeValue,
+        ShowTime = true
+    })
 
     <div class="form-row">
         <label asp-for="LeagueType" class="form-label">League type</label>

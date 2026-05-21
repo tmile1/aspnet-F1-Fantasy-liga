@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "New Constructor";
+    var foundedDateValue = Model.FoundedDate?.ToString("yyyy-MM-dd") ?? string.Empty;
 }
 
 <h1>New Constructor</h1>
@@ -23,11 +24,14 @@
         <span asp-validation-for="Nationality" class="form-error"></span>
     </div>
 
-    <div class="form-row">
-        <label asp-for="FoundedDate" class="form-label"></label>
-        <input asp-for="FoundedDate" class="form-input" type="date" />
-        <span asp-validation-for="FoundedDate" class="form-error"></span>
-    </div>
+    @await Html.PartialAsync("_DatePicker", new DatePickerViewModel
+    {
+        Label = "Founded date",
+        InputName = nameof(Model.FoundedDate),
+        InputId = "founded-date",
+        DateValue = foundedDateValue,
+        ShowTime = false
+    })
 
     <div class="form-actions">
         <button type="submit" class="details-btn">Create</button>

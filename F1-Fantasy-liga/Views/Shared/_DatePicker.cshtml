@@ -1,0 +1,45 @@
+@model F1_Fantasy_liga.Models.DatePickerViewModel
+
+@{
+    var hasDate = !string.IsNullOrWhiteSpace(Model.DateValue);
+    var hasTime = !string.IsNullOrWhiteSpace(Model.TimeValue);
+    var hiddenValue = string.Empty;
+
+    if (hasDate)
+    {
+        if (Model.ShowTime)
+        {
+            var timeValue = hasTime ? Model.TimeValue : "00:00";
+            hiddenValue = $"{Model.DateValue}T{timeValue}";
+        }
+        else
+        {
+            hiddenValue = Model.DateValue;
+        }
+    }
+}
+
+<div class="form-row date-picker" data-date-picker data-show-time="@Model.ShowTime.ToString().ToLower()" data-initial-date="@Model.DateValue" data-initial-time="@Model.TimeValue">
+    <label for="@(Model.InputId + "-date")" class="form-label">@Model.Label</label>
+    <div class="date-picker-inputs">
+        <div class="date-picker-field">
+            <input type="text" id="@(Model.InputId + "-date")" class="form-input date-picker-input" placeholder="@Model.DatePlaceholder" autocomplete="off" />
+            <button type="button" class="date-picker-toggle" aria-label="Open calendar">Cal</button>
+            <div class="date-picker-popover" aria-hidden="true">
+                <div class="date-picker-header">
+                    <button type="button" class="date-picker-nav" data-action="prev" aria-label="Previous month">&lt;</button>
+                    <div class="date-picker-title"></div>
+                    <button type="button" class="date-picker-nav" data-action="next" aria-label="Next month">&gt;</button>
+                </div>
+                <div class="date-picker-weekdays"></div>
+                <div class="date-picker-grid" role="grid"></div>
+            </div>
+        </div>
+        @if (Model.ShowTime)
+        {
+            <input type="text" id="@(Model.InputId + "-time")" class="form-input time-input" placeholder="@Model.TimePlaceholder" inputmode="numeric" />
+        }
+    </div>
+    <input type="hidden" name="@Model.InputName" id="@Model.InputId" value="@hiddenValue" />
+    @Html.ValidationMessage(Model.InputName, "", new { @class = "form-error" })
+</div>
