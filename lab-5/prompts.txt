@@ -1,0 +1,23 @@
+1.This is what is needed for lab 5 but we will do step by step. Frist we will make API controllers for each entity and name the files entitynameAPIController where it uses GET for getting index page and details page, POST for creating new entity, PUT on the edit and DELETE for deleting. Example:GET /api/entity — all non-deleted records, optional ?search= query parameter
+GET /api/entity/{id} — single record, 404 if not found or deleted
+POST /api/entity — create, return 201 Created
+PUT /api/entity/{id} — update, return 204 No Content, 404 if not found
+DELETE /api/entity/{id} — soft delete (IsDeleted=true, DeletedAt=DateTime.UtcNow), return 204 No ContentGET /api/entity — all non-deleted records, optional ?search= query parameter
+GET /api/entity/{id} — single record, 404 if not found or deleted
+POST /api/entity — create, return 201 Created
+PUT /api/entity/{id} — update, return 204 No Content, 404 if not found
+DELETE /api/entity/{id} — soft delete (IsDeleted=true, DeletedAt=DateTime.UtcNow), return 204 No Content.
+Each controller should inherit from ControllerBase and use [ApiController] atrtribute and route [Route("api/entityname")]. API can't exspose unnecessary fields so first create DTO classes in a new folder Models/DTO for every entity. Rules for DTOs:
+
+Never include IsDeleted, DeletedAt
+Never include PasswordHash or ConfirmPassword for User
+Never include navigation collections that cause circular JSON
+Include nested DTO for direct parent (e.g. DriverDTO has ConstructorDTO with Id and Name only)
+Create separate CreateDTO and UpdateDTO for POST and PUT requests
+
+Use a private ToDTO() method in each controller for mapping. Do not return EF entities directly. Start with DriversApiController as first example, confirm it looks good before continuing to other entities.Use the existing MVC controllers (DriversController, ConstructorsController, etc.) as reference for EF queries, soft delete filtering (.Where(x => x.IsDeleted == false)) and Include/ThenInclude patterns. Do not copy the MVC controller logic directly but use it as a guide for what data to fetch.
+2.in FantasyTeamsApiController on line 112 got compile error fix it:Argument 1: cannot convert from 'F1_Fantasy_liga.Models.DTO.FantasyTeamUpdateDTO' to 'F1_Fantasy_liga.Models.DTO.FantasyTeamCreateDTO'
+3.
+Now add asp.net core identity authentication and authorization to the project.Create AppUser class in Models folder that inherits IdentityUser. Add these extra fields: Name (string, required), Surname (string, required). Move the FantasyTeams navigation property from the existing User model to AppUser. AppUser will replace the existing User model for authentication.Update F1DbContext to inherit from IdentityDbContext<AppUser> instead of DbContext. Update FantasyTeam model to reference AppUser instead of User — change UserId to string type to match IdentityUser Id, and update the navigation property.Register Identity in Program.cs using AddIdentity<AppUser, IdentityRole>. Configure cookie to redirect to /account/login when not authenticated and /account/access-denied when not authorized.Create AccountController with Register (GET+POST), Login (GET+POST) and Logout (POST) actions. Use UserManager<AppUser> and SignInManager<AppUser>. On registration assign User role by default. Seed Admin and User roles on startup in Program.cs.Create Register and Login views with client side validation and blur trigger using _ValidationScriptsPartial.Add [Authorize] to all Create, Edit and Delete actions across all MVC controllers. Index and Details stay public. Apply authorization rules: Create, Edit, Delete on Drivers, Constructors, Circuits, Races, RaceResults, FantasyLeagues and Users require [Authorize(Roles = "Admin")]. Create on FantasyTeams requires [Authorize] for any logged in user. Edit and Delete on FantasyTeams require the logged in user to own the team — check that team UserId matches current user Id, or allow if user is Admin, otherwise return Forbid().Update _Layout.cshtml to show Login and Register links when user is not logged in, and show username with Logout button when logged in.
+4.now add google authentification for the login/signup so that there is button continue with google and user can login/signup with google account
+5.Now make that there can be upload of images for the constructors when press create new or edit. Images of constructors should be display on the cards of the index page of the constructors. Images are going to be stored local make a folder in wwwroot called images where the uploaded images will be stored. In the constructor model add string imagepath so that the database knows where the image for constructors is stored.

@@ -10,6 +10,14 @@ namespace F1_Fantasy_liga.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "ImagePath",
+                table: "Constructors",
+                type: "nvarchar(300)",
+                maxLength: 300,
+                nullable: false,
+                defaultValue: string.Empty);
+
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
@@ -105,6 +113,10 @@ namespace F1_Fantasy_liga.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropColumn(
+                name: "ImagePath",
+                table: "Constructors");
+
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
