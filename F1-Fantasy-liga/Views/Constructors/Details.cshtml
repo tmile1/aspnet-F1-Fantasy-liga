@@ -4,6 +4,10 @@
 
 <div class="details-split">
     <div class="info-card">
+        @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" alt="@Model.Name" style="width:100%; height:260px; object-fit:cover; border-radius:16px; margin-bottom:16px;" />
+        }
         <h2>Info</h2>
         <p><strong>Id:</strong> @Model.Id</p>
         <p><strong>Name:</strong> @Model.Name</p>

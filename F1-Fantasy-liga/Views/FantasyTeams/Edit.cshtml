@@ -45,7 +45,7 @@
         DisplayInputId = "constructor-name",
         SearchUrl = Url.Action("AutocompleteConstructors", "FantasyTeams") ?? string.Empty,
         Placeholder = "Search constructors...",
-        SelectedId = Model.ConstructorId,
+        SelectedId = Model.ConstructorId.ToString(),
         SelectedText = ViewBag.ConstructorName as string ?? Model.Constructor?.Name ?? string.Empty
     })
 
@@ -57,7 +57,7 @@
         DisplayInputId = "league-name",
         SearchUrl = Url.Action("AutocompleteLeagues", "FantasyTeams") ?? string.Empty,
         Placeholder = "Search leagues...",
-        SelectedId = Model.FantasyLeagueId,
+        SelectedId = Model.FantasyLeagueId.ToString(),
         SelectedText = ViewBag.LeagueName as string ?? Model.FantasyLeague?.Name ?? string.Empty
     })
 

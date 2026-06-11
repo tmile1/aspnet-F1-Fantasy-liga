@@ -1,7 +1,9 @@
 using F1_Fantasy_liga.Data;
 using F1_Fantasy_liga.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.IO;
 
 namespace F1_Fantasy_liga.Controllers
 {
@@ -9,10 +11,12 @@ namespace F1_Fantasy_liga.Controllers
     public class ConstructorsController : Controller
     {
         private readonly F1DbContext _db;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ConstructorsController(F1DbContext db)
+        public ConstructorsController(F1DbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("")]
@@ -29,6 +33,7 @@ namespace F1_Fantasy_liga.Controllers
             return PartialView("_ConstructorsCards", constructors);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -49,9 +54,10 @@ namespace F1_Fantasy_liga.Controllers
             return Json(results);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Nationality,FoundedDate")] Constructor model)
+        public IActionResult Create([Bind("Name,Nationality,FoundedDate")] Constructor model, IFormFile? imageFile)
         {
             if (!ModelState.IsValid)
             {
@@ -60,6 +66,7 @@ namespace F1_Fantasy_liga.Controllers
 
             model.IsDeleted = false;
             model.DeletedAt = null;
+            model.ImagePath = SaveImage(imageFile);
 
             _db.Constructors.Add(model);
             _db.SaveChanges();
@@ -82,6 +89,7 @@ namespace F1_Fantasy_liga.Controllers
             return View(constructor);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("edit/{id:int}")]
         public IActionResult Edit(int id)
         {
@@ -94,9 +102,10 @@ namespace F1_Fantasy_liga.Controllers
             return View(constructor);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("edit/{id:int}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Nationality,FoundedDate")] Constructor model)
+        public IActionResult Edit(int id, [Bind("Id,Name,Nationality,FoundedDate,ImagePath")] Constructor model, IFormFile? imageFile)
         {
             if (id != model.Id)
             {
@@ -118,11 +127,19 @@ namespace F1_Fantasy_liga.Controllers
             constructor.Nationality = model.Nationality;
             constructor.FoundedDate = model.FoundedDate;
 
+            var newImagePath = SaveImage(imageFile);
+            if (!string.IsNullOrWhiteSpace(newImagePath))
+            {
+                DeleteImageFile(constructor.ImagePath);
+                constructor.ImagePath = newImagePath;
+            }
+
             _db.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("delete/{id:int}")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
@@ -154,6 +171,41 @@ namespace F1_Fantasy_liga.Controllers
             }
 
             return query;
+        }
+
+        private string SaveImage(IFormFile? imageFile)
+        {
+            if (imageFile is null || imageFile.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var imagesFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+            Directory.CreateDirectory(imagesFolder);
+
+            var extension = Path.GetExtension(imageFile.FileName);
+            var fileName = $"{Guid.NewGuid():N}{extension}";
+            var physicalPath = Path.Combine(imagesFolder, fileName);
+
+            using var stream = new FileStream(physicalPath, FileMode.Create);
+            imageFile.CopyTo(stream);
+
+            return "/images/" + fileName;
+        }
+
+        private void DeleteImageFile(string? imagePath)
+        {
+            if (string.IsNullOrWhiteSpace(imagePath))
+            {
+                return;
+            }
+
+            var relativePath = imagePath.TrimStart('/').Replace('/', Path.DirectorySeparatorChar);
+            var physicalPath = Path.Combine(_webHostEnvironment.WebRootPath, relativePath);
+            if (System.IO.File.Exists(physicalPath))
+            {
+                System.IO.File.Delete(physicalPath);
+            }
         }
     }
 }

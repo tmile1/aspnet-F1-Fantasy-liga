@@ -1,4 +1,4 @@
-@model F1_Fantasy_liga.Models.User
+@model F1_Fantasy_liga.Models.ViewModels.UserCreateViewModel
 
 @{
     ViewData["Title"] = "New User";
@@ -30,9 +30,9 @@
     </div>
 
     <div class="form-row">
-        <label asp-for="PasswordHash" class="form-label"></label>
-        <input asp-for="PasswordHash" class="form-input" type="password" />
-        <span asp-validation-for="PasswordHash" class="form-error"></span>
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-input" type="password" />
+        <span asp-validation-for="Password" class="form-error"></span>
     </div>
 
     <div class="form-row">

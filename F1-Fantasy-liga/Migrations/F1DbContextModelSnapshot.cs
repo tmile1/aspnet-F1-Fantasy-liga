@@ -129,6 +129,146 @@ namespace F1_Fantasy_liga.Migrations
                         });
                 });
 
+            modelBuilder.Entity("F1_Fantasy_liga.Models.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6dc2ad01-f370-442c-a7f2-513308ea0d4b",
+                            Email = "marko@email.com",
+                            EmailConfirmed = false,
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            Name = "Marko",
+                            NormalizedEmail = "MARKO@EMAIL.COM",
+                            NormalizedUserName = "MARKO@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJmD9mIqdiskZc2i71Okmm9reh2kUUhIv/1UbPZTA50pEl1ZnmWfmwxd/+lipIGJ5g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "911141b0-3758-4027-ad38-3c2847e1e6b9",
+                            Surname = "Horvat",
+                            TwoFactorEnabled = false,
+                            UserName = "marko@email.com"
+                        },
+                        new
+                        {
+                            Id = "2",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d72d8312-26c4-4583-877f-f93c3c562920",
+                            Email = "ivana@email.com",
+                            EmailConfirmed = false,
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            Name = "Ivana",
+                            NormalizedEmail = "IVANA@EMAIL.COM",
+                            NormalizedUserName = "IVANA@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFBqum9H20Q+AfhdV2+BFKXUkBYpQP+uyMiY3AT830+eFbE7jvT/t/GU25RNsmdh4A==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "0e5f2fc7-8562-462f-b58d-5f0e11e6a44e",
+                            Surname = "Zec",
+                            TwoFactorEnabled = false,
+                            UserName = "ivana@email.com"
+                        },
+                        new
+                        {
+                            Id = "3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d3b178ee-c662-4939-a80a-e645391bb42f",
+                            Email = "pero@email.com",
+                            EmailConfirmed = false,
+                            IsDeleted = false,
+                            LockoutEnabled = false,
+                            Name = "Pero",
+                            NormalizedEmail = "PERO@EMAIL.COM",
+                            NormalizedUserName = "PERO@EMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBnLDxqWVFUxeJyKxmObn+icLqf7oe71ND0VlRqrrwlmxIG6JSSEUIcRGmTzbFNRwA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "4ea075aa-66e0-4bd8-a7f6-06be744118df",
+                            Surname = "Kovač",
+                            TwoFactorEnabled = false,
+                            UserName = "pero@email.com"
+                        });
+                });
+
             modelBuilder.Entity("F1_Fantasy_liga.Models.Circuit", b =>
                 {
                     b.Property<int>("Id")
@@ -215,6 +355,11 @@ namespace F1_Fantasy_liga.Migrations
                     b.Property<DateTime?>("FoundedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -237,6 +382,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 1,
                             FoundedDate = new DateTime(2005, 3, 6, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Red Bull Racing",
                             Nationality = "Austrian"
@@ -245,6 +391,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 2,
                             FoundedDate = new DateTime(1950, 5, 21, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Scuderia Ferrari",
                             Nationality = "Italian"
@@ -253,6 +400,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 3,
                             FoundedDate = new DateTime(1954, 7, 4, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Mercedes-AMG Petronas",
                             Nationality = "German"
@@ -261,6 +409,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 4,
                             FoundedDate = new DateTime(1963, 5, 22, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "McLaren",
                             Nationality = "British"
@@ -269,6 +418,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 5,
                             FoundedDate = new DateTime(2021, 3, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Aston Martin",
                             Nationality = "British"
@@ -277,6 +427,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 6,
                             FoundedDate = new DateTime(2021, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Alpine",
                             Nationality = "French"
@@ -285,6 +436,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 7,
                             FoundedDate = new DateTime(1977, 5, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Williams",
                             Nationality = "British"
@@ -293,6 +445,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 8,
                             FoundedDate = new DateTime(2024, 2, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Visa Cash App RB",
                             Nationality = "Italian"
@@ -301,6 +454,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 9,
                             FoundedDate = new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Kick Sauber",
                             Nationality = "Swiss"
@@ -309,6 +463,7 @@ namespace F1_Fantasy_liga.Migrations
                         {
                             Id = 10,
                             FoundedDate = new DateTime(2016, 3, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            ImagePath = "",
                             IsDeleted = false,
                             Name = "Haas F1 Team",
                             Nationality = "American"
@@ -655,8 +810,9 @@ namespace F1_Fantasy_liga.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -677,7 +833,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 1,
                             IsDeleted = false,
                             Name = "Speed Demons",
-                            UserId = 1
+                            UserId = "1"
                         },
                         new
                         {
@@ -687,7 +843,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 1,
                             IsDeleted = false,
                             Name = "Tifosi Forza",
-                            UserId = 2
+                            UserId = "2"
                         },
                         new
                         {
@@ -697,7 +853,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 2,
                             IsDeleted = false,
                             Name = "Verstappen Fan Club",
-                            UserId = 3
+                            UserId = "3"
                         },
                         new
                         {
@@ -707,7 +863,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 3,
                             IsDeleted = false,
                             Name = "One Man Wolf Pack",
-                            UserId = 1
+                            UserId = "1"
                         },
                         new
                         {
@@ -717,7 +873,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 3,
                             IsDeleted = false,
                             Name = "Forza England",
-                            UserId = 2
+                            UserId = "2"
                         },
                         new
                         {
@@ -727,7 +883,7 @@ namespace F1_Fantasy_liga.Migrations
                             FantasyLeagueId = 3,
                             IsDeleted = false,
                             Name = "LH44",
-                            UserId = 3
+                            UserId = "3"
                         });
                 });
 
@@ -959,7 +1115,48 @@ namespace F1_Fantasy_liga.Migrations
                         });
                 });
 
-            modelBuilder.Entity("F1_Fantasy_liga.Models.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "role-admin",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "role-user",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -967,70 +1164,119 @@ namespace F1_Fantasy_liga.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            Email = "marko@email.com",
-                            IsDeleted = false,
-                            Name = "Marko",
-                            PasswordHash = "hash1",
-                            Role = 0,
-                            Surname = "Horvat"
+                            UserId = "1",
+                            RoleId = "role-admin"
                         },
                         new
                         {
-                            Id = 2,
-                            Email = "ivana@email.com",
-                            IsDeleted = false,
-                            Name = "Ivana",
-                            PasswordHash = "hash2",
-                            Role = 1,
-                            Surname = "Zec"
+                            UserId = "2",
+                            RoleId = "role-user"
                         },
                         new
                         {
-                            Id = 3,
-                            Email = "pero@email.com",
-                            IsDeleted = false,
-                            Name = "Pero",
-                            PasswordHash = "hash3",
-                            Role = 1,
-                            Surname = "Kovač"
+                            UserId = "3",
+                            RoleId = "role-user"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
                 });
 
             modelBuilder.Entity("DriverFantasyTeam", b =>
@@ -1073,7 +1319,7 @@ namespace F1_Fantasy_liga.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("F1_Fantasy_liga.Models.User", "User")
+                    b.HasOne("F1_Fantasy_liga.Models.AppUser", "User")
                         .WithMany("FantasyTeams")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1116,6 +1362,62 @@ namespace F1_Fantasy_liga.Migrations
                     b.Navigation("Race");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("F1_Fantasy_liga.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("F1_Fantasy_liga.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("F1_Fantasy_liga.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("F1_Fantasy_liga.Models.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("F1_Fantasy_liga.Models.AppUser", b =>
+                {
+                    b.Navigation("FantasyTeams");
+                });
+
             modelBuilder.Entity("F1_Fantasy_liga.Models.Constructor", b =>
                 {
                     b.Navigation("Drivers");
@@ -1134,11 +1436,6 @@ namespace F1_Fantasy_liga.Migrations
             modelBuilder.Entity("F1_Fantasy_liga.Models.Race", b =>
                 {
                     b.Navigation("RaceResults");
-                });
-
-            modelBuilder.Entity("F1_Fantasy_liga.Models.User", b =>
-                {
-                    b.Navigation("FantasyTeams");
                 });
 #pragma warning restore 612, 618
         }

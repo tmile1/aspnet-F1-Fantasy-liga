@@ -37,7 +37,7 @@
         DisplayInputId = "circuit-name",
         SearchUrl = Url.Action("Autocomplete", "Circuits") ?? string.Empty,
         Placeholder = "Search circuits...",
-        SelectedId = Model.CircuitId,
+        SelectedId = Model.CircuitId.ToString(),
         SelectedText = ViewBag.CircuitName as string ?? string.Empty
     })
 

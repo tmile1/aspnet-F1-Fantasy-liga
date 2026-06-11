@@ -1,0 +1,63 @@
+@model F1_Fantasy_liga.Models.ViewModels.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+<form asp-action="Login" method="post" class="form-card">
+    @Html.AntiForgeryToken()
+    <input asp-for="ReturnUrl" type="hidden" />
+
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-input" type="email" />
+        <span asp-validation-for="Email" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-input" type="password" />
+        <span asp-validation-for="Password" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label class="form-label">
+            <input asp-for="RememberMe" type="checkbox" />
+            Remember me
+        </label>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Login</button>
+        <a class="details-btn secondary" asp-controller="Home" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+<form asp-action="ExternalLogin" method="post" class="form-card" style="margin-top: 16px;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="provider" value="Google" />
+    <input type="hidden" name="returnUrl" value="@Model.ReturnUrl" />
+    <button type="submit" class="details-btn secondary" style="width: 100%;">Continue with Google</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            if ($.validator && $.validator.setDefaults) {
+                $.validator.setDefaults({
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        this.element(element);
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,14 +1,15 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using F1_Fantasy_liga.Models;
 using F1_Fantasy_liga.Models.Enums;
 
 namespace F1_Fantasy_liga.Data 
 {
-    public class F1DbContext : DbContext
+    public class F1DbContext : IdentityDbContext<AppUser>
     {
         public F1DbContext(DbContextOptions<F1DbContext> options) : base(options) { }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Constructor> Constructors { get; set; }
         public DbSet<Race> Races { get; set; }
@@ -24,16 +25,16 @@ namespace F1_Fantasy_liga.Data
 
             // Constructors
             modelBuilder.Entity<Constructor>().HasData(
-                new Constructor { Id = 1, Name = "Red Bull Racing", Nationality = "Austrian", FoundedDate = new DateTime(2005, 3, 6) },
-                new Constructor { Id = 2, Name = "Scuderia Ferrari", Nationality = "Italian", FoundedDate = new DateTime(1950, 5, 21) },
-                new Constructor { Id = 3, Name = "Mercedes-AMG Petronas", Nationality = "German", FoundedDate = new DateTime(1954, 7, 4) },
-                new Constructor { Id = 4, Name = "McLaren", Nationality = "British", FoundedDate = new DateTime(1963, 5, 22) },
-                new Constructor { Id = 5, Name = "Aston Martin", Nationality = "British", FoundedDate = new DateTime(2021, 3, 28) },
-                new Constructor { Id = 6, Name = "Alpine", Nationality = "French", FoundedDate = new DateTime(2021, 1, 1) },
-                new Constructor { Id = 7, Name = "Williams", Nationality = "British", FoundedDate = new DateTime(1977, 5, 8) },
-                new Constructor { Id = 8, Name = "Visa Cash App RB", Nationality = "Italian", FoundedDate = new DateTime(2024, 2, 8) },
-                new Constructor { Id = 9, Name = "Kick Sauber", Nationality = "Swiss", FoundedDate = new DateTime(1993, 1, 1) },
-                new Constructor { Id = 10, Name = "Haas F1 Team", Nationality = "American", FoundedDate = new DateTime(2016, 3, 20) }
+                new Constructor { Id = 1, Name = "Red Bull Racing", Nationality = "Austrian", FoundedDate = new DateTime(2005, 3, 6), ImagePath ="" },
+                new Constructor { Id = 2, Name = "Scuderia Ferrari", Nationality = "Italian", FoundedDate = new DateTime(1950, 5, 21), ImagePath = "" },
+                new Constructor { Id = 3, Name = "Mercedes-AMG Petronas", Nationality = "German", FoundedDate = new DateTime(1954, 7, 4), ImagePath = "" },
+                new Constructor { Id = 4, Name = "McLaren", Nationality = "British", FoundedDate = new DateTime(1963, 5, 22), ImagePath = "" },
+                new Constructor { Id = 5, Name = "Aston Martin", Nationality = "British", FoundedDate = new DateTime(2021, 3, 28), ImagePath = "" },
+                new Constructor { Id = 6, Name = "Alpine", Nationality = "French", FoundedDate = new DateTime(2021, 1, 1), ImagePath = "" },
+                new Constructor { Id = 7, Name = "Williams", Nationality = "British", FoundedDate = new DateTime(1977, 5, 8), ImagePath = "" },
+                new Constructor { Id = 8, Name = "Visa Cash App RB", Nationality = "Italian", FoundedDate = new DateTime(2024, 2, 8), ImagePath = "" },
+                new Constructor { Id = 9, Name = "Kick Sauber", Nationality = "Swiss", FoundedDate = new DateTime(1993, 1, 1), ImagePath = "" },
+                new Constructor { Id = 10, Name = "Haas F1 Team", Nationality = "American", FoundedDate = new DateTime(2016, 3, 20), ImagePath = "" }
             );
 
             // Circuits
@@ -50,11 +51,92 @@ namespace F1_Fantasy_liga.Data
                 new Race { Id = 3, Name = "Italian Grand Prix", RaceDate = new DateTime(2024, 9, 1), CircuitId = 3 }
             );
 
-            // Users
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Name = "Marko", Surname = "Horvat", Email = "marko@email.com", PasswordHash = "hash1", Role = Role.Admin },
-                new User { Id = 2, Name = "Ivana", Surname = "Zec", Email = "ivana@email.com", PasswordHash = "hash2", Role = Role.User },
-                new User { Id = 3, Name = "Pero", Surname = "Kovač", Email = "pero@email.com", PasswordHash = "hash3", Role = Role.User }
+            var passwordHasher = new PasswordHasher<AppUser>();
+
+            var users = new List<AppUser>
+            {
+                new AppUser
+                {
+                    Id = "1",
+                    UserName = "marko@email.com",
+                    NormalizedUserName = "MARKO@EMAIL.COM",
+                    Email = "marko@email.com",
+                    NormalizedEmail = "MARKO@EMAIL.COM",
+                    Name = "Marko",
+                    Surname = "Horvat",
+                    SecurityStamp = Guid.NewGuid().ToString("D"),
+                    ConcurrencyStamp = Guid.NewGuid().ToString("D"),
+                    IsDeleted = false
+                },
+                new AppUser
+                {
+                    Id = "2",
+                    UserName = "ivana@email.com",
+                    NormalizedUserName = "IVANA@EMAIL.COM",
+                    Email = "ivana@email.com",
+                    NormalizedEmail = "IVANA@EMAIL.COM",
+                    Name = "Ivana",
+                    Surname = "Zec",
+                    SecurityStamp = Guid.NewGuid().ToString("D"),
+                    ConcurrencyStamp = Guid.NewGuid().ToString("D"),
+                    IsDeleted = false
+                },
+                new AppUser
+                {
+                    Id = "3",
+                    UserName = "pero@email.com",
+                    NormalizedUserName = "PERO@EMAIL.COM",
+                    Email = "pero@email.com",
+                    NormalizedEmail = "PERO@EMAIL.COM",
+                    Name = "Pero",
+                    Surname = "Kovač",
+                    SecurityStamp = Guid.NewGuid().ToString("D"),
+                    ConcurrencyStamp = Guid.NewGuid().ToString("D"),
+                    IsDeleted = false
+                }
+            };
+
+            foreach (var user in users)
+            {
+                user.PasswordHash = passwordHasher.HashPassword(user, "Password123!");
+            }
+
+            modelBuilder.Entity<AppUser>().HasData(users);
+
+            var adminRoleId = "role-admin";
+            var userRoleId = "role-user";
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole
+                {
+                    Id = adminRoleId,
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+                },
+                new IdentityRole
+                {
+                    Id = userRoleId,
+                    Name = "User",
+                    NormalizedName = "USER"
+                }
+            );
+
+            modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+                new IdentityUserRole<string>
+                {
+                    RoleId = adminRoleId,
+                    UserId = "1"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = userRoleId,
+                    UserId = "2"
+                },
+                new IdentityUserRole<string>
+                {
+                    RoleId = userRoleId,
+                    UserId = "3"
+                }
             );
 
             // FantasyLeagues
@@ -107,12 +189,12 @@ namespace F1_Fantasy_liga.Data
 
             // FantasyTeams
             modelBuilder.Entity<FantasyTeam>().HasData(
-                new FantasyTeam { Id = 1, Name = "Speed Demons", Budget = 88.5m, UserId = 1, ConstructorId = 2, FantasyLeagueId = 1 },
-                new FantasyTeam { Id = 2, Name = "Tifosi Forza", Budget = 71.0m, UserId = 2, ConstructorId = 3, FantasyLeagueId = 1 },
-                new FantasyTeam { Id = 3, Name = "Verstappen Fan Club", Budget = 80.0m, UserId = 3, ConstructorId = 1, FantasyLeagueId = 2 },
-                new FantasyTeam { Id = 4, Name = "One Man Wolf Pack", Budget = 88.5m, UserId = 1, ConstructorId = 2, FantasyLeagueId = 3 },
-                new FantasyTeam { Id = 5, Name = "Forza England", Budget = 71.0m, UserId = 2, ConstructorId = 3, FantasyLeagueId = 3 },
-                new FantasyTeam { Id = 6, Name = "LH44", Budget = 80.0m, UserId = 3, ConstructorId = 1, FantasyLeagueId = 3 }
+                new FantasyTeam { Id = 1, Name = "Speed Demons", Budget = 88.5m, UserId = "1", ConstructorId = 2, FantasyLeagueId = 1 },
+                new FantasyTeam { Id = 2, Name = "Tifosi Forza", Budget = 71.0m, UserId = "2", ConstructorId = 3, FantasyLeagueId = 1 },
+                new FantasyTeam { Id = 3, Name = "Verstappen Fan Club", Budget = 80.0m, UserId = "3", ConstructorId = 1, FantasyLeagueId = 2 },
+                new FantasyTeam { Id = 4, Name = "One Man Wolf Pack", Budget = 88.5m, UserId = "1", ConstructorId = 2, FantasyLeagueId = 3 },
+                new FantasyTeam { Id = 5, Name = "Forza England", Budget = 71.0m, UserId = "2", ConstructorId = 3, FantasyLeagueId = 3 },
+                new FantasyTeam { Id = 6, Name = "LH44", Budget = 80.0m, UserId = "3", ConstructorId = 1, FantasyLeagueId = 3 }
             );
 
 

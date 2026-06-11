@@ -1,0 +1,71 @@
+@model F1_Fantasy_liga.Models.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<form asp-action="Register" method="post" class="form-card">
+    @Html.AntiForgeryToken()
+    <div class="validation-summary">
+        <div asp-validation-summary="ModelOnly"></div>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-input" />
+        <span asp-validation-for="Name" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Surname" class="form-label"></label>
+        <input asp-for="Surname" class="form-input" />
+        <span asp-validation-for="Surname" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-input" type="email" />
+        <span asp-validation-for="Email" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-input" type="password" />
+        <span asp-validation-for="Password" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <input asp-for="ConfirmPassword" class="form-input" type="password" />
+        <span asp-validation-for="ConfirmPassword" class="form-error"></span>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="details-btn">Create account</button>
+        <a class="details-btn secondary" asp-controller="Home" asp-action="Index">Cancel</a>
+    </div>
+</form>
+
+<form asp-action="ExternalLogin" method="post" class="form-card" style="margin-top: 16px;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="provider" value="Google" />
+    <button type="submit" class="details-btn secondary" style="width: 100%;">Continue with Google</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(function () {
+            if ($.validator && $.validator.setDefaults) {
+                $.validator.setDefaults({
+                    onkeyup: false,
+                    onfocusout: function (element) {
+                        this.element(element);
+                    }
+                });
+            }
+        });
+    </script>
+}

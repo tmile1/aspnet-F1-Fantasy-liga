@@ -8,7 +8,7 @@ namespace F1_Fantasy_liga.Models
         public string DisplayInputId { get; set; } = string.Empty;
         public string SearchUrl { get; set; } = string.Empty;
         public string Placeholder { get; set; } = string.Empty;
-        public int? SelectedId { get; set; }
+        public string? SelectedId { get; set; }
         public string SelectedText { get; set; } = string.Empty;
     }
 }

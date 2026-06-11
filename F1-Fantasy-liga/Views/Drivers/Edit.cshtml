@@ -45,7 +45,7 @@
         DisplayInputId = "constructor-name",
         SearchUrl = Url.Action("Autocomplete", "Constructors") ?? string.Empty,
         Placeholder = "Search constructors...",
-        SelectedId = Model.ConstructorId,
+        SelectedId = Model.ConstructorId.ToString(),
         SelectedText = ViewBag.ConstructorName as string ?? Model.Constructor?.Name ?? string.Empty
     })
 

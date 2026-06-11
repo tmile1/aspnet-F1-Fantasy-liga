@@ -12,6 +12,8 @@ namespace F1_Fantasy_liga.Models
         [StringLength(100)]
         public string Nationality { get; set; } = string.Empty;
         public DateTime? FoundedDate { get; set; }
+        [StringLength(300)]
+        public string ImagePath { get; set; } = string.Empty;
 
         [NotMapped]
         public int Points => Drivers?.Sum(d => d.Points) ?? 0;

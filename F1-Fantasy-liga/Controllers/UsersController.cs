@@ -1,6 +1,8 @@
 using F1_Fantasy_liga.Data;
 using F1_Fantasy_liga.Models;
-using F1_Fantasy_liga.Models.Enums;
+using F1_Fantasy_liga.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,37 +13,57 @@ namespace F1_Fantasy_liga.Controllers
     public class UsersController : Controller
     {
         private readonly F1DbContext _db;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(F1DbContext db)
+        public UsersController(F1DbContext db, UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         [HttpGet("")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var users = BuildUsersQuery(null).ToList();
-            return View(users);
+            var users = await BuildUsersQuery(null).ToListAsync();
+            var items = new List<UserListItemViewModel>();
+
+            foreach (var user in users)
+            {
+                items.Add(await ToListItemAsync(user));
+            }
+
+            return View(items);
         }
 
         [HttpGet("search")]
-        public IActionResult Search(string? term)
+        public async Task<IActionResult> Search(string? term)
         {
-            var users = BuildUsersQuery(term).ToList();
-            return PartialView("_UsersTableBody", users);
+            var users = await BuildUsersQuery(term).ToListAsync();
+            var items = new List<UserListItemViewModel>();
+
+            foreach (var user in users)
+            {
+                items.Add(await ToListItemAsync(user));
+            }
+
+            return PartialView("_UsersTableBody", items);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("create")]
         public IActionResult Create()
         {
             PopulateRoles();
-            return View(new User());
+            return View(new UserCreateViewModel());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("autocomplete")]
         public IActionResult Autocomplete(string? term)
         {
-            var results = _db.Users
+            var results = _userManager.Users
                 .Where(u => u.IsDeleted == false)
                 .Where(u => string.IsNullOrWhiteSpace(term) || (u.Name + " " + u.Surname).Contains(term))
                 .OrderBy(u => u.Name)
@@ -52,32 +74,53 @@ namespace F1_Fantasy_liga.Controllers
             return Json(results);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Name,Surname,Email,PasswordHash,ConfirmPassword,Role")] User model)
+        public async Task<IActionResult> Create(UserCreateViewModel model)
         {
-            if (model.PasswordHash != model.ConfirmPassword)
-            {
-                ModelState.AddModelError(nameof(F1_Fantasy_liga.Models.User.ConfirmPassword), "Passwords do not match.");
-            }
-
             if (!ModelState.IsValid)
             {
                 PopulateRoles(model.Role);
                 return View(model);
             }
 
-            model.IsDeleted = false;
-            model.DeletedAt = null;
+            var user = new AppUser
+            {
+                Name = model.Name,
+                Surname = model.Surname,
+                Email = model.Email,
+                UserName = model.Email,
+                IsDeleted = false,
+                DeletedAt = null
+            };
 
-            _db.Users.Add(model);
-            _db.SaveChanges();
+            var createResult = await _userManager.CreateAsync(user, model.Password);
+            if (!createResult.Succeeded)
+            {
+                foreach (var error in createResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                PopulateRoles(model.Role);
+                return View(model);
+            }
+
+            if (!await _roleManager.RoleExistsAsync(model.Role))
+            {
+                ModelState.AddModelError(nameof(UserCreateViewModel.Role), "Role not found.");
+                PopulateRoles(model.Role);
+                return View(model);
+            }
+
+            await _userManager.AddToRoleAsync(user, model.Role);
 
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet("{id:int}")]
-        public IActionResult Details(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Details(string id)
         {
             var user = _db.Users
                 .Include(u => u.FantasyTeams.Where(ft => ft.IsDeleted == false && ft.FantasyLeague != null && ft.FantasyLeague.IsDeleted == false))
@@ -95,34 +138,48 @@ namespace F1_Fantasy_liga.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var viewModel = new UserDetailsViewModel
+            {
+                User = user,
+                Role = roles.FirstOrDefault() ?? "User"
+            };
+
+            return View(viewModel);
         }
 
-        [HttpGet("edit/{id:int}")]
-        public IActionResult Edit(int id)
+        [Authorize(Roles = "Admin")]
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Edit(string id)
         {
-            var user = _db.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
             if (user is null)
             {
                 return NotFound();
             }
 
-            PopulateRoles(user.Role);
-            return View(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var viewModel = new UserEditViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                Role = roles.FirstOrDefault() ?? "User"
+            };
+
+            PopulateRoles(viewModel.Role);
+            return View(viewModel);
         }
 
-        [HttpPost("edit/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("edit/{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Surname,Email,PasswordHash,ConfirmPassword,Role")] User model)
+        public async Task<IActionResult> Edit(string id, UserEditViewModel model)
         {
             if (id != model.Id)
             {
                 return BadRequest();
-            }
-
-            if (model.PasswordHash != model.ConfirmPassword)
-            {
-                ModelState.AddModelError(nameof(F1_Fantasy_liga.Models.User.ConfirmPassword), "Passwords do not match.");
             }
 
             if (!ModelState.IsValid)
@@ -131,7 +188,7 @@ namespace F1_Fantasy_liga.Controllers
                 return View(model);
             }
 
-            var user = _db.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
             if (user is null)
             {
                 return NotFound();
@@ -140,19 +197,59 @@ namespace F1_Fantasy_liga.Controllers
             user.Name = model.Name;
             user.Surname = model.Surname;
             user.Email = model.Email;
-            user.PasswordHash = model.PasswordHash;
-            user.Role = model.Role;
+            user.UserName = model.Email;
 
-            _db.SaveChanges();
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                foreach (var error in updateResult.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
+                PopulateRoles(model.Role);
+                return View(model);
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.Password))
+            {
+                var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var passwordResult = await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+                if (!passwordResult.Succeeded)
+                {
+                    foreach (var error in passwordResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+
+                    PopulateRoles(model.Role);
+                    return View(model);
+                }
+            }
+
+            if (!await _roleManager.RoleExistsAsync(model.Role))
+            {
+                ModelState.AddModelError(nameof(UserEditViewModel.Role), "Role not found.");
+                PopulateRoles(model.Role);
+                return View(model);
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+            if (!roles.Contains(model.Role))
+            {
+                await _userManager.RemoveFromRolesAsync(user, roles);
+                await _userManager.AddToRoleAsync(user, model.Role);
+            }
 
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpPost("delete/{id:int}")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("delete/{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var user = _db.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == id && u.IsDeleted == false);
             if (user is null)
             {
                 return NotFound();
@@ -160,27 +257,28 @@ namespace F1_Fantasy_liga.Controllers
 
             user.IsDeleted = true;
             user.DeletedAt = DateTime.UtcNow;
-            _db.SaveChanges();
+            await _userManager.UpdateAsync(user);
 
             return RedirectToAction(nameof(Index));
         }
 
-        private void PopulateRoles(Role? selectedRole = null)
+        private void PopulateRoles(string? selectedRole = null)
         {
-            var items = Enum.GetValues<Role>()
+            var items = _roleManager.Roles
+                .OrderBy(role => role.Name)
                 .Select(role => new SelectListItem
                 {
-                    Value = role.ToString(),
-                    Text = role.ToString()
+                    Value = role.Name ?? string.Empty,
+                    Text = role.Name ?? string.Empty
                 })
                 .ToList();
 
-            ViewBag.Roles = new SelectList(items, "Value", "Text", selectedRole?.ToString());
+            ViewBag.Roles = new SelectList(items, "Value", "Text", selectedRole);
         }
 
-        private IQueryable<User> BuildUsersQuery(string? term)
+        private IQueryable<AppUser> BuildUsersQuery(string? term)
         {
-            var query = _db.Users
+            var query = _userManager.Users
                 .Where(u => u.IsDeleted == false)
                 .AsQueryable();
 
@@ -190,6 +288,19 @@ namespace F1_Fantasy_liga.Controllers
             }
 
             return query;
+        }
+
+        private async Task<UserListItemViewModel> ToListItemAsync(AppUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            return new UserListItemViewModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email ?? string.Empty,
+                Role = roles.FirstOrDefault() ?? "User"
+            };
         }
     }
 }

@@ -7,7 +7,7 @@
 
 <h1>Edit Constructor</h1>
 
-<form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="form-card">
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data" class="form-card">
     <div class="validation-summary">
         <div asp-validation-summary="ModelOnly"></div>
     </div>
@@ -24,6 +24,15 @@
         <label asp-for="Nationality" class="form-label"></label>
         <input asp-for="Nationality" class="form-input" />
         <span asp-validation-for="Nationality" class="form-error"></span>
+    </div>
+
+    <div class="form-row">
+        <label for="imageFile" class="form-label">Image</label>
+        <input type="file" id="imageFile" name="imageFile" class="form-input" accept="image/*" />
+        @if (!string.IsNullOrWhiteSpace(Model.ImagePath))
+        {
+            <small style="display:block; margin-top:8px; opacity:0.8;">Current image is already set. Upload a new file to replace it.</small>
+        }
     </div>
 
     @await Html.PartialAsync("_DatePicker", new DatePickerViewModel

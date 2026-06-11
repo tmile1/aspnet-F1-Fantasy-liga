@@ -12,8 +12,8 @@ namespace F1_Fantasy_liga.Models
         public decimal Budget { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
-        public virtual User? User { get; set; }
+        public string UserId { get; set; } = string.Empty;
+        public virtual AppUser? User { get; set; }
         public virtual ICollection<Driver> Drivers { get; set; } = new List<Driver>();
 
         [ForeignKey("Constructor")]

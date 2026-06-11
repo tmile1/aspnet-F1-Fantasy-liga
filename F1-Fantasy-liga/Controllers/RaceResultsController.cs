@@ -1,6 +1,7 @@
 using F1_Fantasy_liga.Data;
 using F1_Fantasy_liga.Models;
 using F1_Fantasy_liga.Models.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace F1_Fantasy_liga.Controllers
             return PartialView("_RaceResultsTableBody", results);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -41,6 +43,7 @@ namespace F1_Fantasy_liga.Controllers
             return View(new RaceResult());
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("FinishedPosition,DriverId,RaceId,DriverStatus")] RaceResult model)
@@ -98,6 +101,7 @@ namespace F1_Fantasy_liga.Controllers
             return View(raceResult);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("edit/{id:int}")]
         public IActionResult Edit(int id)
         {
@@ -116,6 +120,7 @@ namespace F1_Fantasy_liga.Controllers
             return View(raceResult);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("edit/{id:int}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,FinishedPosition,DriverId,RaceId,DriverStatus")] RaceResult model)
@@ -173,6 +178,7 @@ namespace F1_Fantasy_liga.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost("delete/{id:int}")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

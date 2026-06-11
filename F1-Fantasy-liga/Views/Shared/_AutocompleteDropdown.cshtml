@@ -11,7 +11,7 @@
     <input type="hidden"
            id="@Model.HiddenInputId"
            name="@Model.HiddenInputName"
-           value="@(Model.SelectedId?.ToString() ?? string.Empty)" />
+           value="@(Model.SelectedId ?? string.Empty)" />
     <div class="autocomplete-menu" aria-live="polite"></div>
     <span class="form-error field-validation-valid" data-valmsg-for="@Model.HiddenInputName" data-valmsg-replace="true"></span>
 </div>

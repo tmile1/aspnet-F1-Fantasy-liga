@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("F1-Fantasy-liga")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e82cadab662e0ae805fd26a0038013e1b6a23c47")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+115584ab77f36206b9506ae660c592ead2ba9b8d")]
 [assembly: System.Reflection.AssemblyProductAttribute("F1-Fantasy-liga")]
 [assembly: System.Reflection.AssemblyTitleAttribute("F1-Fantasy-liga")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

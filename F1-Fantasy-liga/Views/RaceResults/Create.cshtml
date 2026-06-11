@@ -19,7 +19,7 @@
         DisplayInputId = "race-name",
         SearchUrl = Url.Action("Autocomplete", "Races") ?? string.Empty,
         Placeholder = "Search races...",
-        SelectedId = Model.RaceId,
+        SelectedId = Model.RaceId.ToString(),
         SelectedText = ViewBag.RaceName as string ?? string.Empty
     })
 
@@ -31,7 +31,7 @@
         DisplayInputId = "driver-name",
         SearchUrl = Url.Action("Autocomplete", "Drivers") ?? string.Empty,
         Placeholder = "Search drivers...",
-        SelectedId = Model.DriverId,
+        SelectedId = Model.DriverId.ToString(),
         SelectedText = ViewBag.DriverName as string ?? string.Empty
     })
 

@@ -29,6 +29,21 @@
                     <li><a class="nav-link @(currentController == "FantasyLeagues" ? "active" : string.Empty)" asp-controller="FantasyLeagues" asp-action="Index">Fantasy Leagues</a></li>
                     <li><a class="nav-link @(currentController == "FantasyTeams" ? "active" : string.Empty)" asp-controller="FantasyTeams" asp-action="Index">Fantasy Teams</a></li>
                 </ul>
+                <div class="nav-auth">
+                    @if (User.Identity?.IsAuthenticated ?? false)
+                    {
+                        <span class="nav-user">@User.Identity?.Name</span>
+                        <form asp-controller="Account" asp-action="Logout" method="post" class="nav-logout">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="details-btn secondary">Logout</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="details-btn secondary" asp-controller="Account" asp-action="Login">Login</a>
+                        <a class="details-btn" asp-controller="Account" asp-action="Register">Register</a>
+                    }
+                </div>
             </div>
         </nav>
     </header>

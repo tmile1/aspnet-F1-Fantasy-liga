@@ -1,5 +1,7 @@
 using F1_Fantasy_liga.Data;
 using F1_Fantasy_liga.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +12,12 @@ namespace F1_Fantasy_liga.Controllers
     public class FantasyTeamsController : Controller
     {
         private readonly F1DbContext _db;
+        private readonly UserManager<AppUser> _userManager;
 
-        public FantasyTeamsController(F1DbContext db)
+        public FantasyTeamsController(F1DbContext db, UserManager<AppUser> userManager)
         {
             _db = db;
+            _userManager = userManager;
         }
 
         [HttpGet("")]
@@ -48,6 +52,7 @@ namespace F1_Fantasy_liga.Controllers
             return PartialView("_FantasyTeamsCards", fantasyTeams);
         }
 
+        [Authorize]
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -99,6 +104,7 @@ namespace F1_Fantasy_liga.Controllers
             return Json(results);
         }
 
+        [Authorize]
         [HttpPost("create")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Name,Budget,UserId,ConstructorId,FantasyLeagueId")] FantasyTeam model)
@@ -107,7 +113,7 @@ namespace F1_Fantasy_liga.Controllers
 
             if (!ModelState.IsValid)
             {
-                if (model.UserId > 0)
+                if (!string.IsNullOrWhiteSpace(model.UserId))
                 {
                     ViewBag.UserName = _db.Users
                         .Where(u => u.Id == model.UserId && u.IsDeleted == false)
@@ -173,6 +179,7 @@ namespace F1_Fantasy_liga.Controllers
             return View(fantasyTeam);
         }
 
+        [Authorize]
         [HttpGet("edit/{id:int}")]
         public IActionResult Edit(int id)
         {
@@ -185,12 +192,18 @@ namespace F1_Fantasy_liga.Controllers
                 return NotFound();
             }
 
+            if (!IsOwnerOrAdmin(fantasyTeam))
+            {
+                return Forbid();
+            }
+
             PopulateUsers(fantasyTeam.UserId);
             PopulateConstructors(fantasyTeam.ConstructorId);
             PopulateLeagues(fantasyTeam.FantasyLeagueId);
             return View(fantasyTeam);
         }
 
+        [Authorize]
         [HttpPost("edit/{id:int}")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, [Bind("Id,Name,Budget,UserId,ConstructorId,FantasyLeagueId")] FantasyTeam model)
@@ -204,7 +217,7 @@ namespace F1_Fantasy_liga.Controllers
 
             if (!ModelState.IsValid)
             {
-                if (model.UserId > 0)
+                if (!string.IsNullOrWhiteSpace(model.UserId))
                 {
                     ViewBag.UserName = _db.Users
                         .Where(u => u.Id == model.UserId && u.IsDeleted == false)
@@ -243,6 +256,11 @@ namespace F1_Fantasy_liga.Controllers
                 return NotFound();
             }
 
+            if (!IsOwnerOrAdmin(fantasyTeam))
+            {
+                return Forbid();
+            }
+
             fantasyTeam.Name = model.Name;
             fantasyTeam.Budget = model.Budget;
             fantasyTeam.UserId = model.UserId;
@@ -254,6 +272,7 @@ namespace F1_Fantasy_liga.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         [HttpPost("delete/{id:int}")]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
@@ -262,6 +281,11 @@ namespace F1_Fantasy_liga.Controllers
             if (fantasyTeam is null)
             {
                 return NotFound();
+            }
+
+            if (!IsOwnerOrAdmin(fantasyTeam))
+            {
+                return Forbid();
             }
 
             fantasyTeam.IsDeleted = true;
@@ -363,7 +387,7 @@ namespace F1_Fantasy_liga.Controllers
 
         private void ValidateFantasyTeamSelections(FantasyTeam model)
         {
-            if (model.UserId <= 0)
+            if (string.IsNullOrWhiteSpace(model.UserId))
             {
                 ModelState.AddModelError(nameof(FantasyTeam.UserId), "User is required.");
             }
@@ -379,14 +403,14 @@ namespace F1_Fantasy_liga.Controllers
             }
         }
 
-        private void PopulateUsers(int? selectedId = null)
+        private void PopulateUsers(string? selectedId = null)
         {
             var items = _db.Users
                 .Where(u => u.IsDeleted == false)
                 .OrderBy(u => u.Name)
                 .Select(u => new SelectListItem
                 {
-                    Value = u.Id.ToString(),
+                    Value = u.Id,
                     Text = u.Name + " " + u.Surname
                 })
                 .ToList();
@@ -397,7 +421,18 @@ namespace F1_Fantasy_liga.Controllers
                 Text = "- select user -"
             });
 
-            ViewBag.Users = new SelectList(items, "Value", "Text", selectedId?.ToString());
+            ViewBag.Users = new SelectList(items, "Value", "Text", selectedId);
+        }
+
+        private bool IsOwnerOrAdmin(FantasyTeam fantasyTeam)
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return true;
+            }
+
+            var currentUserId = _userManager.GetUserId(User);
+            return !string.IsNullOrWhiteSpace(currentUserId) && fantasyTeam.UserId == currentUserId;
         }
 
         private void PopulateConstructors(int? selectedId = null)
