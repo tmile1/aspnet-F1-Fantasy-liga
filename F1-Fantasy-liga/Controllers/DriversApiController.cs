@@ -27,7 +27,8 @@ namespace F1_Fantasy_liga.Controllers
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(d => (d.Name + " " + d.Surname).Contains(search));
+                var normalizedSearch = search.Trim().ToLower();
+                query = query.Where(d => (d.Name + " " + d.Surname).ToLower().Contains(normalizedSearch));
             }
 
             var drivers = query

@@ -25,7 +25,6 @@ C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebas
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\F1-Fantasy-liga.dll
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\refint\F1-Fantasy-liga.dll
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\F1-Fantasy-liga.pdb
@@ -151,3 +150,4 @@ C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\bin\Debug\net8.0\Microsoft.A
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
+C:\Users\Hp\Desktop\F1-Fantasy-liga\F1-Fantasy-liga\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,5 +1,6 @@
 wwwroot\css\site.css
 wwwroot\favicon.ico
+wwwroot\images\f896b330bca841028109c3862763647e.jpg
 wwwroot\js\build-team.js
 wwwroot\js\manage-team.js
 wwwroot\js\site.js
