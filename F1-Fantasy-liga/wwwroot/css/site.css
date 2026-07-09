@@ -69,6 +69,71 @@ body > .page-shell {
   padding-top: 10px;
 }
 
+.nav-search {
+  position: relative;
+  flex: 1 1 280px;
+  max-width: 360px;
+  min-width: 220px;
+}
+
+.nav-search-input {
+  width: 100%;
+  background: #14141b;
+}
+
+.global-search-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.35);
+  display: none;
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 1600;
+}
+
+.global-search-menu.is-open {
+  display: block;
+}
+
+.global-search-group {
+  padding: 10px 0 6px;
+}
+
+.global-search-group-title {
+  padding: 0 12px 8px;
+  color: var(--table-head-text);
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.global-search-item {
+  display: block;
+  padding: 9px 12px;
+  text-decoration: none;
+  color: var(--text-main);
+}
+
+.global-search-item:hover {
+  background: var(--table-row-hover);
+}
+
+.global-search-item-title {
+  display: block;
+  font-weight: 600;
+}
+
+.global-search-empty {
+  padding: 12px;
+  color: var(--table-head-text);
+}
+
 .brand {
   color: var(--accent-red);
   text-decoration: none;

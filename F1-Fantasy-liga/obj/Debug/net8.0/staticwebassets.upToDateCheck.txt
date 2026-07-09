@@ -1,8 +1,5 @@
-wwwroot\css\site.css
-wwwroot\favicon.ico
-wwwroot\images\f896b330bca841028109c3862763647e.jpg
 wwwroot\js\build-team.js
-wwwroot\js\manage-team.js
+wwwroot\favicon.ico
 wwwroot\js\site.js
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
@@ -61,3 +58,7 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\css\site.css
+wwwroot\js\manage-team.js
+wwwroot\images\f896b330bca841028109c3862763647e.jpg
+wwwroot\images\d985e6a144d64e15a6abfe7c5018c14a.png

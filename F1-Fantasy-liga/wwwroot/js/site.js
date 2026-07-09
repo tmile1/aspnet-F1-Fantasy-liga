@@ -6,6 +6,143 @@
     return !!target.closest("a, button, input, select, textarea, label");
   };
 
+  const initGlobalSearch = () => {
+    const searchRoot = document.querySelector("[data-global-search]");
+    if (!searchRoot) {
+      return;
+    }
+
+    const input = searchRoot.querySelector("input[type='search']");
+    const menu = searchRoot.querySelector(".global-search-menu");
+    const searchUrl = searchRoot.dataset.searchUrl;
+
+    if (!input || !menu || !searchUrl) {
+      return;
+    }
+
+    let debounceTimer;
+    let requestToken = 0;
+
+    const closeMenu = () => {
+      menu.classList.remove("is-open");
+      menu.innerHTML = "";
+    };
+
+    const escapeHtml = (value) => {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    };
+
+    const renderResults = (data) => {
+      const categories = [
+        { key: "Drivers", label: "Drivers" },
+        { key: "Constructors", label: "Constructors" },
+        { key: "Circuits", label: "Circuits" },
+        { key: "Races", label: "Races" },
+        { key: "FantasyLeagues", label: "Fantasy Leagues" },
+        { key: "FantasyTeams", label: "Fantasy Teams" },
+      ];
+
+      const fragments = [];
+      let hasResults = false;
+
+      categories.forEach((category) => {
+        const items = Array.isArray(data?.[category.key])
+          ? data[category.key]
+          : [];
+        if (!items.length) {
+          return;
+        }
+
+        hasResults = true;
+        const categoryHtml = items
+          .map((item) => {
+            const label = escapeHtml(item.fullName || item.name || "");
+            const url = escapeHtml(item.url || "#");
+            return `<a class="global-search-item" href="${url}"><span class="global-search-item-title">${label}</span></a>`;
+          })
+          .join("");
+
+        fragments.push(`
+          <div class="global-search-group">
+            <div class="global-search-group-title">${category.label}</div>
+            <div class="global-search-group-items">${categoryHtml}</div>
+          </div>
+        `);
+      });
+
+      if (!hasResults) {
+        menu.innerHTML =
+          '<div class="global-search-empty">No results found</div>';
+        menu.classList.add("is-open");
+        return;
+      }
+
+      menu.innerHTML = fragments.join("");
+      menu.classList.add("is-open");
+    };
+
+    const runSearch = () => {
+      const term = input.value.trim();
+      if (term.length < 2) {
+        closeMenu();
+        return;
+      }
+
+      const token = ++requestToken;
+      const url = `${searchUrl}?term=${encodeURIComponent(term)}`;
+
+      fetch(url, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+        .then((response) => response.json())
+        .then((data) => {
+          if (token !== requestToken) {
+            return;
+          }
+
+          renderResults(data || {});
+        })
+        .catch(() => {
+          if (token === requestToken) {
+            closeMenu();
+          }
+        });
+    };
+
+    input.addEventListener("input", () => {
+      window.clearTimeout(debounceTimer);
+      debounceTimer = window.setTimeout(runSearch, 300);
+    });
+
+    input.addEventListener("focus", () => {
+      if (menu.children.length > 0) {
+        menu.classList.add("is-open");
+      }
+    });
+
+    input.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        input.blur();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!searchRoot.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+  };
+
   const initAutocomplete = () => {
     const fields = document.querySelectorAll(".autocomplete-field");
     if (!fields.length) {
@@ -570,5 +707,6 @@
     initPodium();
     initDatePickers();
     initDateDisplays();
+    initGlobalSearch();
   });
 })();

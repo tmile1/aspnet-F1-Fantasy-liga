@@ -29,6 +29,10 @@
                     <li><a class="nav-link @(currentController == "FantasyLeagues" ? "active" : string.Empty)" asp-controller="FantasyLeagues" asp-action="Index">Fantasy Leagues</a></li>
                     <li><a class="nav-link @(currentController == "FantasyTeams" ? "active" : string.Empty)" asp-controller="FantasyTeams" asp-action="Index">Fantasy Teams</a></li>
                 </ul>
+                <div class="nav-search global-search" data-global-search data-search-url="@Url.Action("Index", "GlobalSearch")">
+                    <input class="form-input nav-search-input" type="search" placeholder="Search drivers, teams, races..." autocomplete="off" aria-label="Global search" />
+                    <div class="global-search-menu" aria-live="polite"></div>
+                </div>
                 <div class="nav-auth">
                     @if (User.Identity?.IsAuthenticated ?? false)
                     {
